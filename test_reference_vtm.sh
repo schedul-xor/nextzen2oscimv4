@@ -10,9 +10,9 @@ Y=25812
 
 mkdir -p tmp
 mkdir -p tmp/referencing_oscimv4
-mkdir -p tmp/oscimv4_geojson
+mkdir -p tmp/referencing_oscimv4_geojson
 #wget --no-check-certificate -O tmp/referencing_oscimv4/${Z}_${X}_${Y}.vtm http://tile0.ogiqvo.com/tiles/oscimv4/${Z}/${X}/${Y}.vtm
 #wget --no-check-certificate -O tmp/referencing_oscimv4/${Z}_${X}_${Y}.vtm http://oscimproxy0.ogiqvo.com/tiles/vtm/${Z}/${X}/${Y}.vtm
 
 #python dump_oscim.py tmp/oscimv4/${Z}_${X}_${Y}.vtm
-python dump_oscim.py tmp/referencing_oscimv4/${Z}_${X}_${Y}.vtm ${Z} ${X} ${Y} tmp/oscimv4_geojson/${Z}_${X}_${Y}.json
+python dump_oscim.py tmp/referencing_oscimv4/${Z}_${X}_${Y}.vtm ${Z} ${X} ${Y} tmp/referencing_oscimv4_geojson/${Z}_${X}_${Y}.json

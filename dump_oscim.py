@@ -506,6 +506,7 @@ with open(in_vtm_path,'rb') as fr:
                     })
 
             elif geotype == 'POINT':
+                assert(len(geoobj.indices) == 0)
                 dx = c[0]
                 dy = c[1]
                 ll = xy2ll(dx,dy)
