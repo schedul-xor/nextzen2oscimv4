@@ -5,6 +5,7 @@ import os
 import sys
 import TileData_v4_pb2
 from pyproj import Proj,transform
+import json
 
 EPSG3857 = Proj(init='epsg:3857')
 EPSG4326 = Proj(init='epsg:4326')
@@ -16,6 +17,7 @@ in_vtm_path = sys.argv[1]
 tile_z = int(sys.argv[2])
 tile_x = int(sys.argv[3])
 tile_y = int(sys.argv[4])
+out_json_path = sys.argv[5]
 
 paz = 20037508.342789244 / 256 / (2 ** tile_z)
 tile_x = tile_x*SIZE
@@ -28,6 +30,14 @@ max_lon3857 = (((tile_x+SIZE+paz)-center)/center)*SCALE_FACTOR
 
 min_lon4326,min_lat4326 = transform(EPSG3857,EPSG4326,min_lon3857,min_lat3857)
 max_lon4326,max_lat4326 = transform(EPSG3857,EPSG4326,max_lon3857,max_lat3857)
+
+def xy2ll(x,y):
+    rx = float(x)/4096.0
+    ry = float(y)/4096.0
+    lon3857 = min_lon3857+(max_lon3857-min_lon3857)*rx
+    lat3857 = min_lat3857+(max_lat3857-min_lat3857)*(1.0-ry)
+    lon4326,lat4326 = transform(EPSG3857,EPSG4326,lon3857,lat3857)
+    return [lon4326,lat4326]
 
 TAG_PREDEFINED_KEYS = [
             "access",
@@ -360,6 +370,14 @@ TAG_PREDEFINED_VALUES = [
             "butcher"
 ]
 
+features = []
+geojson = {
+    'type':'FeatureCollection',
+    'name':'demo',
+    "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+    'features':features
+}
+
 with open(in_vtm_path,'rb') as fr:
     content = fr.read()[4:]
     tile = TileData_v4_pb2.Data()
@@ -368,8 +386,11 @@ with open(in_vtm_path,'rb') as fr:
     print 'Version',tile.version
 
     print 'Tag count',tile.num_tags
+    assert(tile.num_tags == len(tile.tags)/2)
     print 'Key count',tile.num_keys
+    assert(tile.num_keys == len(tile.keys))
     print 'Value count',tile.num_vals
+    assert(tile.num_vals == len(tile.values))
 
     keys = tile.keys
     values = tile.values
@@ -396,14 +417,6 @@ with open(in_vtm_path,'rb') as fr:
             
         tags.append((key,value))
 
-    def xy2ll(x,y):
-        rx = (x+2048.0)/4096.0
-        ry = (y+2048.0)/4096.0
-        lon3857 = min_lon3857+(max_lon3857-min_lon3857)*rx
-        lat3857 = min_lat3857+(max_lat3857-min_lat3857)*ry
-        lon4326,lat4326 = transform(EPSG3857,EPSG4326,lon3857,lat3857)
-        return [lon4326,lat4326]
-
     for geoobjs,geotype in [
             (tile.polygons,'POLYGON'),
             (tile.points,'POINT'),
@@ -411,50 +424,99 @@ with open(in_vtm_path,'rb') as fr:
     ]:
         for geoobj in geoobjs:
             layer = geoobj.layer
-            
-#            print '  tag_count',geoobj.num_tags
+
+#            assert(geoobj.num_indices == len(geoobj.indices))
+            assert(geoobj.num_tags == len(geoobj.tags))
+
+            geojson_tags = {}
             for tag_idx in geoobj.tags:
                 key,value = tags[tag_idx]
+                geojson_tags[key] = value
 
             c = geoobj.coordinates
-            if geotype == 'POINT':
-                geom = [c[0],c[1]]
-
-            elif geotype == 'LINE':
-                geom = []
+            if geotype == 'LINE':
+                last_x = 0
+                last_y = 0
+                index_offset = 0
                 for index in geoobj.indices:
-#                    print 'For index',index
                     new_geoms = []
-                    last_x = 0
-                    last_y = 0
                     for i in range(index):
-                        dx = c[(offset+i)*2]
-                        dy = c[(offset+i)*2+1]
+                        dx = c[(index_offset+i)*2]
+                        dy = c[(index_offset+i)*2+1]
                         x = last_x+dx
                         y = last_y+dy
                         last_x = x
                         last_y = y
                         ll = xy2ll(x,y)
                         new_geoms.append(ll)
-                    geom.append(new_geoms)
-                print 'LINE',geom
-                
+                    features.append({
+                        'type':'Feature',
+                        'properties':geojson_tags,
+                        'geometry':{
+                            'type':'LineString',
+                            'coordinates':new_geoms
+                        }
+                    })
+                    index_offset = index_offset+index
+                    
             elif geotype == 'POLYGON':
-                geom = []
-                offset = 0
+                last_x = 0
+                last_y = 0
+                index_offset = 0
+                found_polygons = []
+                is_first_polygon = True
                 for index in geoobj.indices:
-#                    print 'For index',index
-                    new_geoms = []
-                    last_x = 0
-                    last_y = 0
+                    if is_first_polygon:
+                        # It's first polygon
+                        found_polygons.append([[]])
+                        is_first_polygon = False
+
+                    elif index == 0:
+                        # It's a new polygon
+                        is_first_polygon = True
+                        continue
+                        
+                    else:
+                        # It's a hole
+                        found_polygons[-1].append([])
+
+                    first_ll = None
                     for i in range(index):
-                        dx = c[(offset+i)*2]
-                        dy = c[(offset+i)*2+1]
+                        dx = c[(index_offset+i)*2]
+                        dy = c[(index_offset+i)*2+1]
                         x = last_x+dx
                         y = last_y+dy
                         last_x = x
                         last_y = y
                         ll = xy2ll(x,y)
-                        new_geoms.append(ll)
-                    geom.append(new_geoms)
-#                print 'POLYGON',geom
+                        if first_ll == None:
+                            first_ll = ll
+                        found_polygons[-1][-1].append(ll)
+                    found_polygons[-1][-1].append(first_ll)
+                    index_offset = index_offset+index
+
+                for found_polygon in found_polygons:
+                    features.append({
+                        'type':'Feature',
+                        'properties':geojson_tags,
+                        'geometry':{
+                            'type':'Polygon',
+                            'coordinates':found_polygon
+                        }
+                    })
+
+            elif geotype == 'POINT':
+                dx = c[0]
+                dy = c[1]
+                ll = xy2ll(dx,dy)
+                features.append({
+                    'type':'Feature',
+                    'properties':geojson_tags,
+                    'geometry':{
+                        'type':'Point',
+                        'coordinates':ll
+                    }
+                })
+
+with open(out_json_path,'w') as fw:
+    fw.write(json.dumps(geojson))
