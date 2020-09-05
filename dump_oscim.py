@@ -4,8 +4,30 @@
 import os
 import sys
 import TileData_v4_pb2
+from pyproj import Proj,transform
+
+EPSG3857 = Proj(init='epsg:3857')
+EPSG4326 = Proj(init='epsg:4326')
+
+SIZE = 256
+SCALE_FACTOR = 20037508.342789244
 
 in_vtm_path = sys.argv[1]
+tile_z = int(sys.argv[2])
+tile_x = int(sys.argv[3])
+tile_y = int(sys.argv[4])
+
+paz = 20037508.342789244 / 256 / (2 ** tile_z)
+tile_x = tile_x*SIZE
+tile_y = tile_y*SIZE
+center = (SIZE << tile_z) >> 1
+min_lat3857 = ((center - (tile_y+SIZE+paz))/center)*SCALE_FACTOR
+max_lat3857 = ((center - (tile_y-paz))/center)*SCALE_FACTOR
+min_lon3857 = (((tile_x-paz)-center)/center)*SCALE_FACTOR
+max_lon3857 = (((tile_x+SIZE+paz)-center)/center)*SCALE_FACTOR
+
+min_lon4326,min_lat4326 = transform(EPSG3857,EPSG4326,min_lon3857,min_lat3857)
+max_lon4326,max_lat4326 = transform(EPSG3857,EPSG4326,max_lon3857,max_lat3857)
 
 TAG_PREDEFINED_KEYS = [
             "access",
@@ -374,16 +396,65 @@ with open(in_vtm_path,'rb') as fr:
             
         tags.append((key,value))
 
+    def xy2ll(x,y):
+        rx = (x+2048.0)/4096.0
+        ry = (y+2048.0)/4096.0
+        lon3857 = min_lon3857+(max_lon3857-min_lon3857)*rx
+        lat3857 = min_lat3857+(max_lat3857-min_lat3857)*ry
+        lon4326,lat4326 = transform(EPSG3857,EPSG4326,lon3857,lat3857)
+        return [lon4326,lat4326]
+
     for geoobjs,geotype in [
             (tile.polygons,'POLYGON'),
             (tile.points,'POINT'),
-            (tile.lines,'LINES')
+            (tile.lines,'LINE')
     ]:
         for geoobj in geoobjs:
             layer = geoobj.layer
             
-            print '  tag_count',geoobj.num_tags
+#            print '  tag_count',geoobj.num_tags
             for tag_idx in geoobj.tags:
                 key,value = tags[tag_idx]
-                print '    ',key,value
+
+            c = geoobj.coordinates
+            if geotype == 'POINT':
+                geom = [c[0],c[1]]
+
+            elif geotype == 'LINE':
+                geom = []
+                for index in geoobj.indices:
+#                    print 'For index',index
+                    new_geoms = []
+                    last_x = 0
+                    last_y = 0
+                    for i in range(index):
+                        dx = c[(offset+i)*2]
+                        dy = c[(offset+i)*2+1]
+                        x = last_x+dx
+                        y = last_y+dy
+                        last_x = x
+                        last_y = y
+                        ll = xy2ll(x,y)
+                        new_geoms.append(ll)
+                    geom.append(new_geoms)
+                print 'LINE',geom
                 
+            elif geotype == 'POLYGON':
+                geom = []
+                offset = 0
+                for index in geoobj.indices:
+#                    print 'For index',index
+                    new_geoms = []
+                    last_x = 0
+                    last_y = 0
+                    for i in range(index):
+                        dx = c[(offset+i)*2]
+                        dy = c[(offset+i)*2+1]
+                        x = last_x+dx
+                        y = last_y+dy
+                        last_x = x
+                        last_y = y
+                        ll = xy2ll(x,y)
+                        new_geoms.append(ll)
+                    geom.append(new_geoms)
+#                print 'POLYGON',geom
