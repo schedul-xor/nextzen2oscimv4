@@ -7,7 +7,61 @@ import TileData_v4_pb2
 import vector_tile_pb2
 
 in_target = sys.argv[1] # mvt file
-out_target = sys.argv[2] # oscim file
+tile_z = int(sys.argv[2])
+tile_x = int(sys.argv[3])
+tile_y = int(sys.argv[4])
+out_target = sys.argv[5] # oscim file
+
+SIZE = 256
+SCALE_FACTOR = 20037508.342789244
+
+paz = 20037508.342789244 / 256 / (2 ** tile_z)
+tile_x = tile_x*SIZE
+tile_y = tile_y*SIZE
+center = (SIZE << tile_z) >> 1
+min_lat3857 = ((center - (tile_y+SIZE+paz))/center)*SCALE_FACTOR
+max_lat3857 = ((center - (tile_y-paz))/center)*SCALE_FACTOR
+min_lon3857 = (((tile_x-paz)-center)/center)*SCALE_FACTOR
+max_lon3857 = (((tile_x+SIZE+paz)-center)/center)*SCALE_FACTOR
+
+def parse_to_raw_geometry(encoded):
+    command_read_mode = True
+    left_length = 0
+    prev_b = 0
+    idx = 0
+    paths = []
+    while idx < len(encoded):
+        if command_read_mode:
+            b = encoded[idx]
+            command = b & 0x07
+            left_length = b >> 3
+            if command == 1:
+                print 'Move to',left_length
+                paths.append([])
+            elif command == 2: print 'Line to',left_length
+            elif command == 7: print 'Close path'
+            command_read_mode = False
+            idx = idx+1
+        else:
+            b = encoded[idx]
+            x = prev_b-b
+            idx = idx+1
+            prev_b = b
+            
+            b = encoded[idx]
+            y = b-prev_b
+            idx = idx+1
+
+            point = [x,y]
+            paths[-1].append(point)
+            left_length = left_length-1
+            if left_length == 0:
+                command_read_mode = True
+
+        prev_b = b
+    return paths
+            
+# parse_to_raw_geometry([9,6,12,18,10,12,24,44,15]) # Sample written in tile.proto file
 
 oscim_tile = TileData_v4_pb2.Data()
 with open(in_target,'rb') as fr:
@@ -46,6 +100,11 @@ with open(in_target,'rb') as fr:
                 appending_target = found_polygons
             elif geom_type == vector_tile_pb2.Tile.GeomType.Value('LINESTRING'):
                 appending_target = found_lines
+
+            geometry = feature.geometry
+            paths = parse_to_raw_geometry(geometry)
+            print paths
+            
             appending_target.append(oscim_element)
 
 #        oscim_tile.num_tags = len(layer.tags)
@@ -55,3 +114,5 @@ with open(in_target,'rb') as fr:
         if len(found_points) > 0: oscim_tile.points.extend(found_points)
         if len(found_polygons) > 0: oscim_tile.polygons.extend(found_polygons)
         if len(found_lines) > 0: oscim_tile.lines.extend(found_lines)
+
+        
