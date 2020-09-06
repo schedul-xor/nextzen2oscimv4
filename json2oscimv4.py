@@ -470,7 +470,7 @@ def convert(tile_z,tile_x,tile_y,fr):
                 elif key == 'kind_detail' and value == 'subway':
                     key = 'railway'
                     value = 'subway'
-                elif key == 'kind' and value in frozenset[
+                elif key == 'kind' and value in frozenset([
                         'bar',
                         'bicycle',
                         'books',
@@ -485,7 +485,7 @@ def convert(tile_z,tile_x,tile_y,fr):
                         'restaurant',
                         'school',
                         'university',
-                ]:
+                ]):
                     key = 'amenity'
 
                 if key in predefined_key_idx:
