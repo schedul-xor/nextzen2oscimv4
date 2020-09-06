@@ -452,6 +452,15 @@ def convert(tile_z,tile_x,tile_y,fr):
                 elif key == 'kind' and value == 'water':
                     key = 'natural'
                     value = 'water'
+                elif key == 'kind' and value == 'major_road':
+                    key = 'highway'
+                    value = 'trunk'
+                elif key == 'kind' and value == 'minor_road':
+                    key = 'highway'
+                    value = 'residential'
+                elif key == 'kind' and value == 'building':
+                    key = 'building'
+                    value = 'yes'
 
                 if key in predefined_key_idx:
                     key_idx = predefined_key_idx[key]
