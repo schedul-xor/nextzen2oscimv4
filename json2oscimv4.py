@@ -385,12 +385,12 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
         ry = float(lat3857-min_lat3857)/float(max_lat3857-min_lat3857)
 
         rx = rx-0.5
-        rx = rx*float(SIZE)/float(SIZE-buffer_pixels)
+        rx = rx*float(SIZE+buffer_pixels)/float(SIZE)
         rx = rx+0.5
         x = int(rx*4096.0)
 
         ry = ry-0.5
-        ry = -ry*float(SIZE)/float(SIZE-buffer_pixels) # NEGATE!
+        ry = -ry*float(SIZE+buffer_pixels)/float(SIZE) # NEGATE!
         ry = ry+0.5
         y = int(ry*4096.0)
         

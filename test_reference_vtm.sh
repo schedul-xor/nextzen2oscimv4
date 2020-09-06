@@ -5,9 +5,9 @@
 # Z=0
 
 Z=14
-X=14552
+X=14553
 Y=6455
-OSCIMV4_BUFFER_PIXELS=10
+OSCIMV4_BUFFER_PIXELS=5
 
 mkdir -p tmp
 mkdir -p tmp/referencing_oscimv4

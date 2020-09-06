@@ -17,9 +17,11 @@ in_vtm_path = sys.argv[1]
 tile_z = int(sys.argv[2])
 tile_x = int(sys.argv[3])
 tile_y = int(sys.argv[4])
-buffer_pixels = int(sys.argv[5])
+OSCIMV4_BUFFER_PIXELS = int(sys.argv[5])
 out_json_path = sys.argv[6]
 
+buffer_pixels = OSCIMV4_BUFFER_PIXELS*(2**(16-tile_z))
+        
 EXTENDED_SIZE = SIZE-buffer_pixels
 
 paz = 20037508.342789244 / 256 / (2 ** tile_z)
