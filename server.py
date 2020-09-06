@@ -45,7 +45,7 @@ def vtm(z,x,y):
             subprocess.call(cmd,shell=True)
 
         with open(tmp_geojson_path) as fr:
-            buffer_pixels = OSCIMV4_BUFFER_PIXELS*(2**(16-tile_z))
+            buffer_pixels = OSCIMV4_BUFFER_PIXELS*(2**(17-tile_z))
             oscimv4_binary = json2oscimv4.convert(tile_z,tile_x,tile_y,buffer_pixels,fr.read())
     else:
         oscimv4_binary = b'0123'
