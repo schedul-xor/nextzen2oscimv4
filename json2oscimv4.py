@@ -8,7 +8,8 @@ from pyproj import Proj,transform
 EPSG3857 = Proj(init='epsg:3857')
 EPSG4326 = Proj(init='epsg:4326')
 
-SIZE = 256
+BUFFER_PIXELS = 5
+SIZE = 256+BUFFER_PIXELS*2
 SCALE_FACTOR = 20037508.342789244
 
 TAG_PREDEFINED_KEYS = [
