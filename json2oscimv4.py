@@ -471,14 +471,15 @@ def convert(tile_z,tile_x,tile_y,fr):
                     value = 'service'
                 elif key == 'kind' and value == 'footway':
                     key = 'highway'
-                    value = 'footway'
+                elif key == 'kind' and value == 'bus_stop':
+                    key = 'highway'
 
-                elif key == 'kind' and value in frozenset(['aerodrome','apron']):
+                elif key == 'kind' and value in frozenset(['aerodrome','apron','helipad']):
                     key = 'aeroway'
                 elif key == 'kind_detail' and value in frozenset (['runway','taxiway']):
                     key = 'aeroway'
 
-                elif key == 'kind' and value in frozenset(['pitch','park']):
+                elif key == 'kind' and value in frozenset(['pitch','park','playground']):
                     key = 'leisure'
                     
                 elif key == 'kind' and value == 'building':
@@ -492,7 +493,7 @@ def convert(tile_z,tile_x,tile_y,fr):
                 elif key == 'kind' and value == 'station':
                     key = 'railway'
                     
-                elif key == 'kind' and value == 'viewpoint':
+                elif key == 'kind' and value in frozenset(['viewpoint','information','park']):
                     key = 'tourism'
 
                 elif key == 'is_tunnel' and value == 'True':
@@ -513,9 +514,10 @@ def convert(tile_z,tile_x,tile_y,fr):
                         'dry_cleaning',
                         'fast_food',
                         'parking',
-                        'police',
                         'pharmacy',
                         'place_of_worship',
+                        'police',
+                        'post_office',
                         'pub',
                         'restaurant',
                         'school',
