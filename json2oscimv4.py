@@ -449,9 +449,13 @@ def convert(tile_z,tile_x,tile_y,fr):
                 if key == 'kind' and value == 'earth':
                     key = 'landuse'
                     value = 'urban'
+                    
                 elif key == 'kind' and value in frozenset(['water','riverbank']):
                     key = 'natural'
                     value = 'water'
+                if key == 'kind' and value == 'river':
+                    key = 'waterway'
+                    value = 'river'
                     
                 elif key == 'kind' and value == 'major_road':
                     key = 'highway'
@@ -462,6 +466,9 @@ def convert(tile_z,tile_x,tile_y,fr):
                 elif key == 'kind' and value == 'highway':
                     key = 'highway'
                     value = 'motorway'
+                elif key == 'kind' and value == 'footway':
+                    key = 'highway'
+                    value = 'footway'
 
                 elif key == 'kind' and value in frozenset(['pitch','park']):
                     key = 'leisure'
@@ -476,6 +483,10 @@ def convert(tile_z,tile_x,tile_y,fr):
                 elif key == 'kind_detail' and value == 'subway':
                     key = 'railway'
                     value = 'subway'
+                elif key == 'kind' and value == 'station':
+                    key = 'railway'
+                    value = 'station'
+                    
                 elif key == 'kind' and value in frozenset([
                         'bar',
                         'bicycle',
