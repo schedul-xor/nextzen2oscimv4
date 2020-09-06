@@ -446,7 +446,7 @@ def convert(tile_z,tile_x,tile_y,fr):
                 value = properties[key]
                 value = unicode(value)
 
-                if key == 'kind' and value in frozenset(['earth','cemetery']):
+                if key == 'kind' and value in frozenset(['earth','cemetery','commercial','forest','grass']):
                     key = 'landuse'
                     value = 'urban'
                     
@@ -466,6 +466,9 @@ def convert(tile_z,tile_x,tile_y,fr):
                 elif key == 'kind' and value == 'highway':
                     key = 'highway'
                     value = 'motorway'
+                elif key == 'highway' and value == 'residential':
+                    key = 'highway'
+                    value = 'service'
                 elif key == 'kind' and value == 'footway':
                     key = 'highway'
                     value = 'footway'
@@ -479,13 +482,13 @@ def convert(tile_z,tile_x,tile_y,fr):
                     
                 elif key == 'kind_detail' and value == 'rail':
                     key = 'railway'
-                    value = 'rail'
                 elif key == 'kind_detail' and value == 'subway':
                     key = 'railway'
-                    value = 'subway'
                 elif key == 'kind' and value == 'station':
                     key = 'railway'
-                    value = 'station'
+                    
+                elif key == 'kind' and value == 'viewpoint':
+                    key = 'tourism'
 
                 elif key == 'is_tunnel' and value == 'True':
                     key = 'tunnel'
