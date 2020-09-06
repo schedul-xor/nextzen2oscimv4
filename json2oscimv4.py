@@ -452,21 +452,41 @@ def convert(tile_z,tile_x,tile_y,fr):
                 elif key == 'kind' and value == 'water':
                     key = 'natural'
                     value = 'water'
+                    
                 elif key == 'kind' and value == 'major_road':
                     key = 'highway'
                     value = 'trunk'
                 elif key == 'kind' and value == 'minor_road':
                     key = 'highway'
                     value = 'residential'
+                    
                 elif key == 'kind' and value == 'building':
                     key = 'building'
                     value = 'yes'
+                    
                 elif key == 'kind_detail' and value == 'rail':
                     key = 'railway'
                     value = 'rail'
                 elif key == 'kind_detail' and value == 'subway':
                     key = 'railway'
                     value = 'subway'
+                elif key == 'kind' and value in frozenset[
+                        'bar',
+                        'bicycle',
+                        'books',
+                        'cafe',
+                        'clothes',
+                        'convenience',
+                        'dry_cleaning',
+                        'fast_food',
+                        'police',
+                        'pharmacy',
+                        'pub',
+                        'restaurant',
+                        'school',
+                        'university',
+                ]:
+                    key = 'amenity'
 
                 if key in predefined_key_idx:
                     key_idx = predefined_key_idx[key]
