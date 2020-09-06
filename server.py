@@ -33,7 +33,7 @@ def vtm(z,x,y):
         mvt_filename = str(tile_z)+'_'+str(tile_x)+'_'+str(tile_y)+'.mvt'
         tmp_mvt_path = os.path.join(MVT_CACHE_DIR,mvt_filename)
         if not os.path.exists(tmp_mvt_path):
-            cmd = ['wget','--no-check-certificate','-O',tmp_mvt_path,'https://tile.nextzen.org/tilezen/vector/v1/256/all/'+str(tile_z)+'/'+str(tile_x)+'/'+str(tile_y)+'.mvt?api_key='+NEXTZEN_API_KEY]
+            cmd = ['wget','--no-check-certificate','-b','0','-O',tmp_mvt_path,'https://tile.nextzen.org/tilezen/vector/v1/256/all/'+str(tile_z)+'/'+str(tile_x)+'/'+str(tile_y)+'.mvt?api_key='+NEXTZEN_API_KEY]
             subprocess.call(cmd)
 
         geojson_filename = str(tile_z)+'_'+str(tile_x)+'_'+str(tile_y)+'.json'
