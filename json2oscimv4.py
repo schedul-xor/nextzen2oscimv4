@@ -380,11 +380,11 @@ def convert(tile_z,tile_x,tile_y,fr):
 
     def ll2xy(lon,lat):
         lon3857,lat3857 = transform(EPSG4326,EPSG3857,lon,lat)
-        rx = (lon3857-min_lon3857)/(max_lon3857-min_lon3857)
-        ry = (lat3857-min_lat3857)/(max_lat3857-min_lat3857)
+        rx = float(lon3857-min_lon3857)/float(max_lon3857-min_lon3857)
+        ry = float(lat3857-min_lat3857)/float(max_lat3857-min_lat3857)
         ry = 1.0-ry
-        x = int(rx*4096.0)
-        y = int(ry*4096.0)
+        x = int((rx-0.5)*4096.0)
+        y = int((ry-0.5)*4096.0)
         return x,y
 
     def lls2xy(lls):
