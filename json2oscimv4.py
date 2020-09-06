@@ -356,13 +356,13 @@ for i in range(len(TAG_PREDEFINED_VALUES)):
 
 def convert(tile_z,tile_x,tile_y,fr):
     paz = 20037508.342789244 / 256 / (2 ** tile_z)
-    tile_x = tile_x*SIZE
-    tile_y = tile_y*SIZE
-    center = (SIZE << tile_z) >> 1
-    min_lat3857 = ((center - (tile_y+SIZE+paz))/center)*SCALE_FACTOR
+    tile_x = tile_x*BUFFER_INCLUDING_SIZE
+    tile_y = tile_y*BUFFER_INCLUDING_SIZE
+    center = (BUFFER_INCLUDING_SIZE << tile_z) >> 1
+    min_lat3857 = ((center - (tile_y+BUFFER_INCLUDING_SIZE+paz))/center)*SCALE_FACTOR
     max_lat3857 = ((center - (tile_y-paz))/center)*SCALE_FACTOR
     min_lon3857 = (((tile_x-paz)-center)/center)*SCALE_FACTOR
-    max_lon3857 = (((tile_x+SIZE+paz)-center)/center)*SCALE_FACTOR
+    max_lon3857 = (((tile_x+BUFFER_INCLUDING_SIZE+paz)-center)/center)*SCALE_FACTOR
 
     min_lon4326,min_lat4326 = transform(EPSG3857,EPSG4326,min_lon3857,min_lat3857)
     max_lon4326,max_lat4326 = transform(EPSG3857,EPSG4326,max_lon3857,max_lat3857)
