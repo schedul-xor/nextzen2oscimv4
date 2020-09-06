@@ -352,7 +352,7 @@ for i in range(len(TAG_PREDEFINED_VALUES)):
     predefined_value_idx[predefined_value] = i
 
 def convert(tile_z,tile_x,tile_y,fr):
-    paz = 20037508.342789244 / 255 / (2 ** tile_z)
+    paz = 20037508.342789244 / 256 / (2 ** tile_z)
     tile_x = tile_x*SIZE
     tile_y = tile_y*SIZE
     center = (SIZE << tile_z) >> 1
@@ -446,7 +446,7 @@ def convert(tile_z,tile_x,tile_y,fr):
                 value = properties[key]
                 value = unicode(value)
 
-                if key == 'kind' and value in frozenset(['earth','cemetery','commercial','forest','grass']):
+                if key == 'kind' and value in frozenset(['earth','cemetery','commercial','forest','grass','industrial']):
                     key = 'landuse'
                     value = 'urban'
                     
@@ -498,6 +498,10 @@ def convert(tile_z,tile_x,tile_y,fr):
                 elif key == 'is_tunnel' and value == 'True':
                     key = 'tunnel'
                     value = 'yes'
+                    
+                elif key == 'is_bridge' and value == 'True':
+                    key = 'bridge'
+                    value = 'yes'
 
                 elif key == 'kind' and value in frozenset([
                         'bar',
@@ -508,6 +512,7 @@ def convert(tile_z,tile_x,tile_y,fr):
                         'convenience',
                         'dry_cleaning',
                         'fast_food',
+                        'parking',
                         'police',
                         'pharmacy',
                         'place_of_worship',
