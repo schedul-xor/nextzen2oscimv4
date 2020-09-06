@@ -9,7 +9,9 @@ EPSG3857 = Proj(init='epsg:3857')
 EPSG4326 = Proj(init='epsg:4326')
 
 BUFFER_PIXELS = 5
-SIZE = 256-BUFFER_PIXELS*2
+SIZE = 256
+BUFFER_INCLUDING_SIZE = SIZE+BUFFER_PIXELS+BUFFER_INCLUDING_SIZE
+
 SCALE_FACTOR = 20037508.342789244
 
 TAG_PREDEFINED_KEYS = [
@@ -384,8 +386,8 @@ def convert(tile_z,tile_x,tile_y,fr):
         rx = float(lon3857-min_lon3857)/float(max_lon3857-min_lon3857)
         ry = float(lat3857-min_lat3857)/float(max_lat3857-min_lat3857)
         ry = 1.0-ry
-        x = int(rx*4096.0)
-        y = int(ry*4096.0)
+        x = int(rx*4096.0*float(BUFFER_INCLUDING_SIZE)/float(SIZE))
+        y = int(ry*4096.0*float(BUFFER_INCLUDING_SIZE)/float(SIZE))
         return x,y
 
     def lls2xy(lls):
