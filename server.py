@@ -13,7 +13,7 @@ TMP_PATH = './tmp'
 MVT_CACHE_DIR = os.path.join(TMP_PATH,'mvt')
 GEOJSON_CACHE_DIR = os.path.join(TMP_PATH,'geojson')
 
-if not os.path.exists(TMP_DIR): os.mkdir(TMP_DIR)
+if not os.path.exists(TMP_PATH): os.mkdir(TMP_PATH)
 if not os.path.exists(MVT_CACHE_DIR): os.mkdir(MVT_CACHE_DIR)
 if not os.path.exists(GEOJSON_CACHE_DIR): os.mkdir(GEOJSON_CACHE_DIR)
 
