@@ -469,9 +469,7 @@ def convert(tile_z,tile_x,tile_y,fr):
                 elif key == 'highway' and value == 'residential':
                     key = 'highway'
                     value = 'service'
-                elif key == 'kind' and value == 'footway':
-                    key = 'highway'
-                elif key == 'kind' and value == 'bus_stop':
+                elif key == 'kind' and value in frozenset(['footway','bus_stop','unclassified']):
                     key = 'highway'
 
                 elif key == 'kind' and value in frozenset(['aerodrome','apron','helipad']):
@@ -479,7 +477,7 @@ def convert(tile_z,tile_x,tile_y,fr):
                 elif key == 'kind_detail' and value in frozenset (['runway','taxiway']):
                     key = 'aeroway'
 
-                elif key == 'kind' and value in frozenset(['pitch','park','playground']):
+                elif key == 'kind' and value in frozenset(['pitch','park','playground','common']):
                     key = 'leisure'
                     
                 elif key == 'kind' and value == 'building':
@@ -521,6 +519,7 @@ def convert(tile_z,tile_x,tile_y,fr):
                         'pub',
                         'restaurant',
                         'school',
+                        'supermarket',
                         'university',
                 ]):
                     key = 'amenity'
