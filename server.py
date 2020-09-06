@@ -9,9 +9,11 @@ import json2oscimv4 # In this directory
 NEXTZEN_API_KEY = '_lQbucvFRf6L7cPYIG1Fdg'
 TIPPECANOE_BIN_PATH = '/usr/local/bin/tippecanoe-decode'
 
-MVT_CACHE_DIR = './tmp/mvt'
-GEOJSON_CACHE_DIR = './tmp/geojson'
+TMP_DIR = './tmp'
+MVT_CACHE_DIR = os.path.join(TMP_PATH,'mvt')
+GEOJSON_CACHE_DIR = os.path.join(TMP_PATH,'geojson')
 
+if not os.path.exists(TMP_DIR): os.mkdir(TMP_DIR)
 if not os.path.exists(MVT_CACHE_DIR): os.mkdir(MVT_CACHE_DIR)
 if not os.path.exists(GEOJSON_CACHE_DIR): os.mkdir(GEOJSON_CACHE_DIR)
 
