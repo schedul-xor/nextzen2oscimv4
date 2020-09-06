@@ -449,6 +449,9 @@ def convert(tile_z,tile_x,tile_y,fr):
                 if key == 'kind' and value == 'earth':
                     key = 'landuse'
                     value = 'urban'
+                elif key == 'kind' and value == 'water':
+                    key = 'natural'
+                    value = 'water'
 
                 if key in predefined_key_idx:
                     key_idx = predefined_key_idx[key]
