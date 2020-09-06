@@ -17,7 +17,10 @@ in_vtm_path = sys.argv[1]
 tile_z = int(sys.argv[2])
 tile_x = int(sys.argv[3])
 tile_y = int(sys.argv[4])
-out_json_path = sys.argv[5]
+buffer_pixels = int(sys.argv[5])
+out_json_path = sys.argv[6]
+
+EXTENDED_SIZE = SIZE-buffer_pixels
 
 paz = 20037508.342789244 / 256 / (2 ** tile_z)
 tile_x = tile_x*SIZE
@@ -33,9 +36,17 @@ max_lon4326,max_lat4326 = transform(EPSG3857,EPSG4326,max_lon3857,max_lat3857)
 
 def xy2ll(x,y):
     rx = float(x)/4096.0
+    rx = rx-0.5
+    rx = rx*float(EXTENDED_SIZE)/float(SIZE)
+    rx = rx+0.5
+    
     ry = float(y)/4096.0
+    ry = ry-0.5
+    ry = -ry*float(EXTENDED_SIZE)/float(SIZE) #NEGATE!
+    ry = ry+0.5
+
     lon3857 = min_lon3857+(max_lon3857-min_lon3857)*rx
-    lat3857 = min_lat3857+(max_lat3857-min_lat3857)*(1.0-ry)
+    lat3857 = min_lat3857+(max_lat3857-min_lat3857)*ry
     lon4326,lat4326 = transform(EPSG3857,EPSG4326,lon3857,lat3857)
     return [lon4326,lat4326]
 

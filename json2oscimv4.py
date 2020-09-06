@@ -8,9 +8,7 @@ from pyproj import Proj,transform
 EPSG3857 = Proj(init='epsg:3857')
 EPSG4326 = Proj(init='epsg:4326')
 
-BUFFER_PIXELS = 5
 SIZE = 256
-BUFFER_INCLUDING_SIZE = SIZE+BUFFER_PIXELS+BUFFER_PIXELS
 
 SCALE_FACTOR = 20037508.342789244
 
@@ -354,7 +352,7 @@ for i in range(len(TAG_PREDEFINED_VALUES)):
     predefined_value = TAG_PREDEFINED_VALUES[i]
     predefined_value_idx[predefined_value] = i
 
-def convert(tile_z,tile_x,tile_y,fr):
+def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
     paz = 20037508.342789244 / 256 / (2 ** tile_z)
     tile_x = tile_x*SIZE
     tile_y = tile_y*SIZE
@@ -385,9 +383,17 @@ def convert(tile_z,tile_x,tile_y,fr):
         lon3857,lat3857 = transform(EPSG4326,EPSG3857,lon,lat)
         rx = float(lon3857-min_lon3857)/float(max_lon3857-min_lon3857)
         ry = float(lat3857-min_lat3857)/float(max_lat3857-min_lat3857)
-        ry = 1.0-ry
-        x = int(rx*4096.0*float(BUFFER_INCLUDING_SIZE)/float(SIZE))
-        y = int(ry*4096.0*float(BUFFER_INCLUDING_SIZE)/float(SIZE))
+
+        rx = rx-0.5
+        rx = rx*float(SIZE)/float(SIZE-buffer_pixels)
+        rx = rx+0.5
+        x = int(rx*4096.0)
+
+        ry = ry-0.5
+        ry = -ry*float(SIZE)/float(SIZE-buffer_pixels) # NEGATE!
+        ry = ry+0.5
+        y = int(ry*4096.0)
+        
         return x,y
 
     def lls2xy(lls):

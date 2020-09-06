@@ -9,6 +9,8 @@ import json2oscimv4 # In this directory
 NEXTZEN_API_KEY = '_lQbucvFRf6L7cPYIG1Fdg'
 TIPPECANOE_BIN_PATH = '/usr/local/bin/tippecanoe-decode'
 
+OSCIMV4_BUFFER_PIXELS = 5
+
 TMP_PATH = './tmp'
 MVT_CACHE_DIR = os.path.join(TMP_PATH,'mvt')
 GEOJSON_CACHE_DIR = os.path.join(TMP_PATH,'geojson')
@@ -33,7 +35,7 @@ def vtm(z,x,y):
         mvt_filename = str(tile_z)+'_'+str(tile_x)+'_'+str(tile_y)+'.mvt'
         tmp_mvt_path = os.path.join(MVT_CACHE_DIR,mvt_filename)
         if not os.path.exists(tmp_mvt_path):
-            cmd = ['wget','--no-check-certificate','-b','0','-O',tmp_mvt_path,'https://tile.nextzen.org/tilezen/vector/v1/256/all/'+str(tile_z)+'/'+str(tile_x)+'/'+str(tile_y)+'.mvt?api_key='+NEXTZEN_API_KEY]
+            cmd = ['wget','--no-check-certificate','-O',tmp_mvt_path,'https://tile.nextzen.org/tilezen/vector/v1/256/all/'+str(tile_z)+'/'+str(tile_x)+'/'+str(tile_y)+'.mvt?api_key='+NEXTZEN_API_KEY]
             subprocess.call(cmd)
 
         geojson_filename = str(tile_z)+'_'+str(tile_x)+'_'+str(tile_y)+'.json'
@@ -43,7 +45,7 @@ def vtm(z,x,y):
             subprocess.call(cmd,shell=True)
 
         with open(tmp_geojson_path) as fr:
-            oscimv4_binary = json2oscimv4.convert(tile_z,tile_x,tile_y,fr.read())
+            oscimv4_binary = json2oscimv4.convert(tile_z,tile_x,tile_y,OSCIM_BUFFER_PIXELS,fr.read())
     else:
         oscimv4_binary = b'0123'
         
