@@ -9,7 +9,7 @@ import json2oscimv4 # In this directory
 NEXTZEN_API_KEY = '_lQbucvFRf6L7cPYIG1Fdg'
 TIPPECANOE_BIN_PATH = '/usr/local/bin/tippecanoe-decode'
 
-OSCIMV4_BUFFER_PIXELS = 10
+OSCIMV4_BUFFER_PIXELS = 5
 
 TMP_PATH = './tmp'
 MVT_CACHE_DIR = os.path.join(TMP_PATH,'mvt')
@@ -45,7 +45,8 @@ def vtm(z,x,y):
             subprocess.call(cmd,shell=True)
 
         with open(tmp_geojson_path) as fr:
-            oscimv4_binary = json2oscimv4.convert(tile_z,tile_x,tile_y,OSCIMV4_BUFFER_PIXELS,fr.read())
+            buffer_pixels = OSCIMV4_BUFFER_PIXELS*(2 ** (16-tile_z))
+            oscimv4_binary = json2oscimv4.convert(tile_z,tile_x,tile_y,buffer_pixels,fr.read())
     else:
         oscimv4_binary = b'0123'
         
