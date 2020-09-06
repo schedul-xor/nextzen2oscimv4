@@ -383,8 +383,8 @@ def convert(tile_z,tile_x,tile_y,fr):
         rx = float(lon3857-min_lon3857)/float(max_lon3857-min_lon3857)
         ry = float(lat3857-min_lat3857)/float(max_lat3857-min_lat3857)
         ry = 1.0-ry
-        x = int(rx*4097.0)
-        y = int(ry*4097.0)
+        x = int(rx*4096.0*256.0/255.0)
+        y = int(ry*4096.0*256.0/255.0)
         return x,y
 
     def lls2xy(lls):
