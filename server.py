@@ -47,4 +47,4 @@ def vtm(z,x,y):
     return oscimv4_binary
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=32400)
