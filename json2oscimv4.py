@@ -461,6 +461,12 @@ def convert(tile_z,tile_x,tile_y,fr):
                 elif key == 'kind' and value == 'building':
                     key = 'building'
                     value = 'yes'
+                elif key == 'kind_detail' and value == 'rail':
+                    key = 'railway'
+                    value = 'rail'
+                elif key == 'kind_detail' and value == 'subway':
+                    key = 'railway'
+                    value = 'subway'
 
                 if key in predefined_key_idx:
                     key_idx = predefined_key_idx[key]
