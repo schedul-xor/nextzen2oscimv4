@@ -20,7 +20,8 @@ tile_y = int(sys.argv[4])
 OSCIMV4_BUFFER_PIXELS = int(sys.argv[5])
 out_json_path = sys.argv[6]
 
-buffer_pixels = OSCIMV4_BUFFER_PIXELS*(2**(16-tile_z))
+buffer_pixels = 5
+print 'BUFFER_PIXELS=',buffer_pixels
         
 EXTENDED_SIZE = SIZE-buffer_pixels
 
