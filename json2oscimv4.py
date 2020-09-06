@@ -450,6 +450,10 @@ def convert(tile_z,tile_x,tile_y,fr):
                     key = 'landuse'
                     value = 'urban'
                     
+                elif key == 'kind' and value == 'locality':
+                    key = 'boundary'
+                    value = 'administrative'
+                    
                 elif key == 'kind' and value in frozenset(['water','riverbank','ocean']):
                     key = 'natural'
                     value = 'water'
