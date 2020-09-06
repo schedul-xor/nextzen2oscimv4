@@ -5,14 +5,14 @@
 # Z=0
 
 Z=16
-X=58210
-Y=25812
+X=58209
+Y=25813
 
 mkdir -p tmp
 mkdir -p tmp/referencing_oscimv4
 mkdir -p tmp/referencing_oscimv4_geojson
-#wget --no-check-certificate -O tmp/referencing_oscimv4/${Z}_${X}_${Y}.vtm http://tile0.ogiqvo.com/tiles/oscimv4/${Z}/${X}/${Y}.vtm
-#wget --no-check-certificate -O tmp/referencing_oscimv4/${Z}_${X}_${Y}.vtm http://oscimproxy0.ogiqvo.com/tiles/vtm/${Z}/${X}/${Y}.vtm
+#wget -nc --no-check-certificate -O tmp/referencing_oscimv4/${Z}_${X}_${Y}.vtm http://tile0.ogiqvo.com/tiles/oscimv4/${Z}/${X}/${Y}.vtm
+wget -nc --no-check-certificate -O tmp/referencing_oscimv4/${Z}_${X}_${Y}.vtm http://oscimproxy0.ogiqvo.com/tiles/vtm/${Z}/${X}/${Y}.vtm
 
 #python dump_oscim.py tmp/oscimv4/${Z}_${X}_${Y}.vtm
 python dump_oscim.py tmp/referencing_oscimv4/${Z}_${X}_${Y}.vtm ${Z} ${X} ${Y} tmp/referencing_oscimv4_geojson/${Z}_${X}_${Y}.json

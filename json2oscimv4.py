@@ -446,6 +446,10 @@ def convert(tile_z,tile_x,tile_y,fr):
                 value = properties[key]
                 value = unicode(value)
 
+                if key == 'kind' and value == 'earth':
+                    key = 'landuse'
+                    value = 'urban'
+
                 if key in predefined_key_idx:
                     key_idx = predefined_key_idx[key]
                 else:
