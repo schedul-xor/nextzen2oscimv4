@@ -8,8 +8,8 @@ TILESIZE=256
 # Z=1
 
 Z=16
-X=58211
-Y=25806
+X=58209
+Y=25813
 
 mkdir -p tmp
 mkdir -p tmp/mvt

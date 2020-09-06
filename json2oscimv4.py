@@ -441,7 +441,7 @@ def convert(tile_z,tile_x,tile_y,fr):
             tag_idxs_in_feature = []
             properties = feature['properties']
             for key in properties:
-                if key in frozenset(['id','area','sort_rank','source','min_zoom','surface']): continue
+                if key in frozenset(['id','sort_rank','source','min_zoom','surface']): continue
 
                 value = properties[key]
                 value = unicode(value)
