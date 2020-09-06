@@ -9,7 +9,7 @@ import json2oscimv4 # In this directory
 NEXTZEN_API_KEY = '_lQbucvFRf6L7cPYIG1Fdg'
 TIPPECANOE_BIN_PATH = '/usr/local/bin/tippecanoe-decode'
 
-OSCIMV4_BUFFER_PIXELS = 20
+OSCIMV4_BUFFER_PIXELS = 15
 
 TMP_PATH = './tmp'
 MVT_CACHE_DIR = os.path.join(TMP_PATH,'mvt')
