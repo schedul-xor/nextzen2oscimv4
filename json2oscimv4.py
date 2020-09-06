@@ -352,7 +352,7 @@ for i in range(len(TAG_PREDEFINED_VALUES)):
     predefined_value_idx[predefined_value] = i
 
 def convert(tile_z,tile_x,tile_y,fr):
-    paz = 20037508.342789244 / 256 / (2 ** tile_z)
+    paz = 20037508.342789244 / 255 / (2 ** tile_z)
     tile_x = tile_x*SIZE
     tile_y = tile_y*SIZE
     center = (SIZE << tile_z) >> 1
