@@ -560,9 +560,12 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
             if kv.has_key('highway') and kv['highway'] == 'trunk':
                 if kv.has_key('kind_detail'):
-                    kv['highway'] = kv['kind_detail']
+                    fixed_kv['highway'] = kv['kind_detail']
             if kv.has_key('kind_detail') and kv['kind_detail'] == 'service':
-                kv['highway'] = 'service'
+                fixed_kv['highway'] = 'service'
+
+            if kv.has_key('waterway'):
+                fixed_kv['waterway'] = kv['waterway']
 
             if kv.has_key('kind'):
                 kind_value = kv['kind']
