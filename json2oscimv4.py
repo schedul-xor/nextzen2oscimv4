@@ -12,6 +12,9 @@ SIZE = 256
 
 SCALE_FACTOR = 20037508.342789244
 
+YES_KEYS = frozenset(['yes','1','true'])
+NAME_KEYS = frozenset(['name','name:ja','name:en'])
+
 TAG_PREDEFINED_KEYS = [
             "access",
             "addr:housename",
@@ -449,94 +452,161 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
         for feature in features:
             tag_idxs_in_feature = []
             properties = feature['properties']
+
+            kv = {}
             for key in properties:
                 if key in frozenset(['id','sort_rank','source','min_zoom','surface']): continue
-
                 value = properties[key]
                 value = unicode(value)
+                kv[key] = value
 
-                if key == 'kind' and value in frozenset(['earth','cemetery','commercial','forest','grass','industrial']):
-                    key = 'landuse'
-                    value = 'urban'
-                    
-                elif key == 'kind' and value == 'locality':
-                    key = 'boundary'
-                    value = 'administrative'
-                    
-                elif key == 'kind' and value in frozenset(['water','riverbank','ocean']):
-                    key = 'natural'
-                    value = 'water'
-                if key == 'kind' and value == 'river':
-                    key = 'waterway'
-                    value = 'river'
-                    
-                elif key == 'kind' and value == 'major_road':
-                    key = 'highway'
-                    value = 'trunk'
-                elif key == 'kind' and value == 'minor_road':
-                    key = 'highway'
-                    value = 'residential'
-                elif key == 'kind' and value == 'highway':
-                    key = 'highway'
-                    value = 'motorway'
-                elif key == 'highway' and value == 'residential':
-                    key = 'highway'
-                    value = 'service'
-                elif key == 'kind' and value in frozenset(['footway','bus_stop','unclassified']):
-                    key = 'highway'
+            # for key in kv.keys():
+            #     value = kv[key]
 
-                elif key == 'kind' and value in frozenset(['aerodrome','apron','helipad']):
-                    key = 'aeroway'
-                elif key == 'kind_detail' and value in frozenset (['runway','taxiway']):
-                    key = 'aeroway'
-
-                elif key == 'kind' and value in frozenset(['pitch','park','playground','common']):
-                    key = 'leisure'
+            #     if key == 'kind' and value in frozenset(['earth','cemetery','commercial','forest','grass','industrial']):
+            #         key = 'landuse'
+            #         value = 'urban'
                     
-                elif key == 'kind' and value == 'building':
-                    key = 'building'
-                    value = 'yes'
+            #     elif key == 'kind' and value == 'locality':
+            #         key = 'boundary'
+            #         value = 'administrative'
                     
-                elif key == 'kind_detail' and value == 'rail':
-                    key = 'railway'
-                elif key == 'kind_detail' and value == 'subway':
-                    key = 'railway'
-                elif key == 'kind' and value == 'station':
-                    key = 'railway'
+            #     elif key == 'kind' and value in frozenset(['water','riverbank','ocean']):
+            #         key = 'natural'
+            #         value = 'water'
+            #     if key == 'kind' and value == 'river':
+            #         key = 'waterway'
+            #         value = 'river'
                     
-                elif key == 'kind' and value in frozenset(['viewpoint','information','park']):
-                    key = 'tourism'
+            #     elif key == 'kind' and value == 'major_road':
+            #         key = 'highway'
+            #         value = 'trunk'
+            #     elif key == 'kind' and value == 'minor_road':
+            #         key = 'highway'
+            #         value = 'residential'
+            #     elif key == 'kind' and value == 'highway':
+            #         key = 'highway'
+            #         value = 'motorway'
+            #     elif key == 'highway' and value == 'residential':
+            #         key = 'highway'
+            #         value = 'service'
+            #     elif key == 'kind' and value in frozenset(['footway','bus_stop','unclassified']):
+            #         key = 'highway'
 
-                elif key == 'is_tunnel' and value == 'True':
-                    key = 'tunnel'
-                    value = 'yes'
+            #     elif key == 'kind' and value in frozenset(['aerodrome','apron','helipad']):
+            #         key = 'aeroway'
+            #     elif key == 'kind_detail' and value in frozenset (['runway','taxiway']):
+            #         key = 'aeroway'
+
+            #     elif key == 'kind' and value in frozenset(['pitch','park','playground','common']):
+            #         key = 'leisure'
                     
-                elif key == 'is_bridge' and value == 'True':
-                    key = 'bridge'
-                    value = 'yes'
+            #     elif key == 'kind' and value == 'building':
+            #         key = 'building'
+            #         value = 'yes'
+                    
+            #     elif key == 'kind_detail' and value == 'rail':
+            #         key = 'railway'
+            #     elif key == 'kind_detail' and value == 'subway':
+            #         key = 'railway'
+            #     elif key == 'kind' and value == 'station':
+            #         key = 'railway'
+                    
+            #     elif key == 'kind' and value in frozenset(['viewpoint','information','park']):
+            #         key = 'tourism'
 
-                elif key == 'kind' and value in frozenset([
-                        'bar',
-                        'bicycle',
-                        'books',
-                        'cafe',
-                        'clothes',
-                        'convenience',
-                        'dry_cleaning',
-                        'fast_food',
-                        'parking',
-                        'pharmacy',
-                        'place_of_worship',
-                        'police',
-                        'post_office',
-                        'pub',
-                        'restaurant',
-                        'school',
-                        'supermarket',
-                        'university',
-                ]):
-                    key = 'amenity'
+            #     elif key == 'is_tunnel' and value == 'True':
+            #         key = 'tunnel'
+            #         value = 'yes'
+                    
+            #     elif key == 'is_bridge' and value == 'True':
+            #         key = 'bridge'
+            #         value = 'yes'
 
+            #     elif key == 'kind' and value in frozenset([
+            #             'bar',
+            #             'bicycle',
+            #             'books',
+            #             'cafe',
+            #             'clothes',
+            #             'convenience',
+            #             'dry_cleaning',
+            #             'fast_food',
+            #             'parking',
+            #             'pharmacy',
+            #             'place_of_worship',
+            #             'police',
+            #             'post_office',
+            #             'pub',
+            #             'restaurant',
+            #             'school',
+            #             'supermarket',
+            #             'university',
+            #     ]):
+            #         key = 'amenity'
+
+            names_kv = {}
+            for key in kv.keys():
+                value = kv[key]
+                if key in NAME_KEYS:
+                    names_kv[key] = value
+
+            fixed_kv = {}
+            if kv.has_key('oneway') and kv['oneway'].lower() in YES_KEYS:
+                fixed_kv['oneway'] = 'yes'
+
+            if kv.has_key('area') and kv['area'].lower() in YES_KEYS:
+                fixed_kv['area'] = 'yes'
+
+            if kv.has_key('kind'):
+                kind_value = kv['kind']
+                
+                if kind == 'building':
+                    fixed_kv['building'] = 'yes'
+                    
+                elif kind == 'is_tunnel' and kind_value == 'True':
+                    fixed_kv['tunnel'] = 'yes'
+                elif kind == 'is_bridge' and kind_value == 'True':
+                    fixed_kv['bridge'] = 'yes'
+
+                elif kind in frozenset(['earth','cemetery','commercial','forest','grass','industrial']):
+                    fixed_kv['landuse'] = 'urban'
+
+                # REGION
+                elif kind == 'locality':
+                    fixed_kv['boundary'] = 'administrative'
+
+                # WATER
+                elif kind in frozenset(['water','riverbank','ocean']):
+                    fixed_kv['natural'] = 'water'
+
+                # RAIL
+                elif kind == 'major_road':
+                    fixed_kv['highway'] = 'trunk'
+                elif kind == 'minor_road':
+                    fixed_kv['highway'] = 'residential'
+                elif kind == 'highway':
+                    fixed_kv['highway'] = 'motorway'
+                elif kind in frozenset(['footway','bus_stop','unclassified']):
+                    fixed_kv['highway'] = kind
+
+                # AIR
+                elif kind in frozenset(['aerodrome','apron','helipad']):
+                    fixed_kv['aeroway'] = kind
+
+                elif kind in frozenset(['pitch','park','playground','common']):
+                    fixed_kv['leisure'] = kind
+
+                elif kind in frozenset(['viewpoint','information','park']):
+                    fixed_kv['tourism'] = kind
+            
+            merged_kv = {}
+            for key in names_kv: merged_kv[key] = names_kv[key]
+            for key in fixed_kv: merged_kv[key] = fixed_kv[key]
+            
+            for key in merged_kv.keys():
+                value = fixed_kv[key]
+                
                 if key in predefined_key_idx:
                     key_idx = predefined_key_idx[key]
                 else:

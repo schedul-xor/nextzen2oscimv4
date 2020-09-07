@@ -4,10 +4,10 @@
 # Y=0
 # Z=0
 
-Z=14
-X=14553
-Y=6455
-OSCIMV4_BUFFER_PIXELS=5
+Z=$1
+X=$2
+Y=$3
+OSCIMV4_BUFFER_PIXELS=0 # UNUSED
 
 mkdir -p tmp
 mkdir -p tmp/referencing_oscimv4
