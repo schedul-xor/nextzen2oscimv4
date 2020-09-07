@@ -594,6 +594,9 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 
                 if kind_value == 'building':
                     fixed_kv['building'] = 'yes'
+
+                    if kv.has_key('building:levels'):
+                        fixed_kv['height'] = int(kv['building:levels'])*420
                     
                 elif kind_value in frozenset(['earth']):
                     fixed_kv['landuse'] = 'urban'

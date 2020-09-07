@@ -13,5 +13,6 @@
 # sh run.sh 15 29097 12915
 
 sh run.sh 15 29092 12900 # Ogikubo
+sh run.sh 17 116371 51602 # Ogikubo-overzoomed
 sh run.sh 16 58186 25804
 sh run.sh 16 58201 25805 # Shinjuku-gyoen

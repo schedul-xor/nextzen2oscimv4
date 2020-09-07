@@ -13,5 +13,6 @@
 # sh test_generated_vtm.sh 15 29097 12915
 
 sh test_generated_vtm.sh 15 29092 12900 # Ogikubo
+sh test_generated_vtm.sh 17 116371 51602 # Ogikubo-overzoomed
 sh test_generated_vtm.sh 16 58186 25804
 sh test_generated_vtm.sh 16 58201 25805 # Shinjuku-gyoen
