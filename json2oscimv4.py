@@ -561,44 +561,44 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             if kv.has_key('kind'):
                 kind_value = kv['kind']
                 
-                if kind == 'building':
+                if kind_value == 'building':
                     fixed_kv['building'] = 'yes'
                     
-                elif kind == 'is_tunnel' and kind_value == 'True':
+                elif kind_value == 'is_tunnel' and kind_value == 'True':
                     fixed_kv['tunnel'] = 'yes'
-                elif kind == 'is_bridge' and kind_value == 'True':
+                elif kind_value == 'is_bridge' and kind_value == 'True':
                     fixed_kv['bridge'] = 'yes'
 
-                elif kind in frozenset(['earth','cemetery','commercial','forest','grass','industrial']):
+                elif kind_value in frozenset(['earth','cemetery','commercial','forest','grass','industrial']):
                     fixed_kv['landuse'] = 'urban'
 
                 # REGION
-                elif kind == 'locality':
+                elif kind_value == 'locality':
                     fixed_kv['boundary'] = 'administrative'
 
                 # WATER
-                elif kind in frozenset(['water','riverbank','ocean']):
+                elif kind_value in frozenset(['water','riverbank','ocean']):
                     fixed_kv['natural'] = 'water'
 
                 # RAIL
-                elif kind == 'major_road':
+                elif kind_value == 'major_road':
                     fixed_kv['highway'] = 'trunk'
-                elif kind == 'minor_road':
+                elif kind_value == 'minor_road':
                     fixed_kv['highway'] = 'residential'
-                elif kind == 'highway':
+                elif kind_value == 'highway':
                     fixed_kv['highway'] = 'motorway'
-                elif kind in frozenset(['footway','bus_stop','unclassified']):
-                    fixed_kv['highway'] = kind
+                elif kind_value in frozenset(['footway','bus_stop','unclassified']):
+                    fixed_kv['highway'] = kind_value
 
                 # AIR
-                elif kind in frozenset(['aerodrome','apron','helipad']):
-                    fixed_kv['aeroway'] = kind
+                elif kind_value in frozenset(['aerodrome','apron','helipad']):
+                    fixed_kv['aeroway'] = kind_value
 
-                elif kind in frozenset(['pitch','park','playground','common']):
-                    fixed_kv['leisure'] = kind
+                elif kind_value in frozenset(['pitch','park','playground','common']):
+                    fixed_kv['leisure'] = kind_value
 
-                elif kind in frozenset(['viewpoint','information','park']):
-                    fixed_kv['tourism'] = kind
+                elif kind_value in frozenset(['viewpoint','information','park']):
+                    fixed_kv['tourism'] = kind_value
             
             merged_kv = {}
             for key in names_kv: merged_kv[key] = names_kv[key]
