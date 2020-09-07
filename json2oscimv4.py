@@ -580,7 +580,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 elif kind_value in frozenset(['water','riverbank','ocean']):
                     fixed_kv['natural'] = 'water'
 
-                # RAIL
+                # ROADS
                 elif kind_value == 'major_road':
                     fixed_kv['highway'] = 'trunk'
                 elif kind_value == 'minor_road':
@@ -589,6 +589,9 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     fixed_kv['highway'] = 'motorway'
                 elif kind_value in frozenset(['footway','bus_stop','unclassified']):
                     fixed_kv['highway'] = kind_value
+
+                elif kind_value in frozenset(['rail','subway','station']):
+                    fixed_kv['railway'] = kind_value
 
                 # AIR
                 elif kind_value in frozenset(['aerodrome','apron','helipad']):
