@@ -12,7 +12,7 @@ SIZE = 256
 
 SCALE_FACTOR = 20037508.342789244
 
-YES_KEYS = frozenset(['yes','1','true'])
+YES_VALUES = frozenset(['yes','1','true'])
 NAME_KEYS = frozenset(['name','name:ja','name:en'])
 
 TAG_PREDEFINED_KEYS = [
@@ -552,10 +552,10 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     names_kv[key] = value
 
             fixed_kv = {}
-            if kv.has_key('oneway') and kv['oneway'].lower() in YES_KEYS:
+            if kv.has_key('oneway') and kv['oneway'].lower() in YES_VALUES:
                 fixed_kv['oneway'] = 'yes'
 
-            if kv.has_key('area') and kv['area'].lower() in YES_KEYS:
+            if kv.has_key('area') and kv['area'].lower() in YES_VALUES:
                 fixed_kv['area'] = 'yes'
 
             if kv.has_key('kind'):
@@ -564,9 +564,9 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 if kind_value == 'building':
                     fixed_kv['building'] = 'yes'
                     
-                elif kind_value == 'is_tunnel' and kind_value == 'True':
+                elif kind_value == 'is_tunnel' and kind_value.lower() in YES_VALUES:
                     fixed_kv['tunnel'] = 'yes'
-                elif kind_value == 'is_bridge' and kind_value == 'True':
+                elif kind_value == 'is_bridge' and kind_value.lower() in YES_VALUES:
                     fixed_kv['bridge'] = 'yes'
 
                 elif kind_value in frozenset(['earth','cemetery','commercial','forest','grass','industrial']):
@@ -590,9 +590,10 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 elif kind_value in frozenset(['footway','bus_stop','unclassified']):
                     fixed_kv['highway'] = kind_value
 
+                # RAILS
                 elif kind_value in frozenset(['rail','subway','station']):
                     fixed_kv['railway'] = kind_value
-
+                    
                 # AIR
                 elif kind_value in frozenset(['aerodrome','apron','helipad']):
                     fixed_kv['aeroway'] = kind_value
