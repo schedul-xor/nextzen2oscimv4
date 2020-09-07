@@ -428,6 +428,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 lat = ll[1]
                 x,y = ll2xy(lon,lat)
                 abs_xys.append([x,y])
+            abs_xys = abs_xys[:-1]
             abs_xyss.append(abs_xys)
 
         last_x = 0
