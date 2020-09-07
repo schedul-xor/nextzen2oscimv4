@@ -643,7 +643,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                         elif kind_detail == 'pedestrian':
                             fixed_kv['highway'] = 'footway'
 
-                elif kind_value in frozenset(['pitch','park','playground','common']):
+                elif kind_value in frozenset(['pitch','park','playground','common','garden']):
                     fixed_kv['leisure'] = kind_value
 
                 elif kind_value in frozenset(['viewpoint','information','park']):
