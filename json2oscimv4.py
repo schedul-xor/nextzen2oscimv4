@@ -624,7 +624,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 elif kind_value in frozenset(['viewpoint','information','park']):
                     fixed_kv['tourism'] = kind_value
 
-                elif kind in frozenset([
+                elif kind_value in frozenset([
                         'bar',
                         'bicycle',
                         'books',
