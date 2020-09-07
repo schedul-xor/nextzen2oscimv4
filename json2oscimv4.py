@@ -562,7 +562,26 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             elif kv.has_key('is_bridge') and kv['is_bridge'].lower() in YES_VALUES:
                 fixed_kv['bridge'] = 'yes'
 
-            for explicit_kind in frozenset(['waterway','natural']):
+            if kv.has_key('natural'):
+                natural = kv['natural']
+                if natural in frozenset(['village_green','meadow']):
+                    fixed_kv['landuse'] = natural
+                elif natural == 'mountain_range': pass
+                else:
+                    fixed_kv['natural'] = natural
+                    
+            if kv.has_key('landuse'):
+                landuse = kv['landuse']
+                if landuse in frozenset(['park','natural_reserve']):
+                    fixed_kv['leisure'] = landuse
+                elif landuse == 'field':
+                    fixed_kv['landuse'] = 'farmland'
+                elif landuse in frozenset(['grassland','scrub']):
+                    fixed_kv['natural'] = landuse
+                else:
+                    fixed_kv['landuse'] = landuse
+                
+            for explicit_kind in frozenset(['waterway']):
                 if kv.has_key(explicit_kind): fixed_kv[explicit_kind] = kv[explicit_kind]
 
             if kv.has_key('kind'):
@@ -571,7 +590,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 if kind_value == 'building':
                     fixed_kv['building'] = 'yes'
                     
-                elif kind_value in frozenset(['earth','cemetery','commercial','forest','grass','industrial']):
+                elif kind_value in frozenset(['earth']):
                     fixed_kv['landuse'] = 'urban'
 
                 # REGION
@@ -581,6 +600,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 # WATER
                 elif kind_value in frozenset(['water','riverbank','ocean']):
                     fixed_kv['natural'] = 'water'
+                elif kind_value == 'lake;pond':
+                    fixed_kv['water'] = 'pond'
                 elif kind_value == 'river':
                     fixed_kv['waterway'] = 'river'
 
