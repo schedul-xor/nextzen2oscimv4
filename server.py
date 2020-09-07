@@ -31,7 +31,9 @@ def vtm(z,x,y):
     tile_x = int(x)
     tile_y = int(y)
 
+    is_not_original = False
     if tile_z >= 17:
+        is_not_original = True
         new_x = tile_x
         new_y = tile_y
         new_z = tile_z
@@ -48,11 +50,18 @@ def vtm(z,x,y):
         cmd = ['wget','--no-check-certificate','-O',tmp_mvt_path,'https://tile.nextzen.org/tilezen/vector/v1/256/all/'+str(tile_z)+'/'+str(tile_x)+'/'+str(tile_y)+'.mvt?api_key='+NEXTZEN_API_KEY]
         subprocess.call(cmd)
 
-    geojson_filename = str(tile_z)+'_'+str(tile_x)+'_'+str(tile_y)+'.json'
-    tmp_geojson_path = os.path.join(GEOJSON_CACHE_DIR,geojson_filename)
-    if not os.path.exists(tmp_geojson_path):
-        cmd = TIPPECANOE_BIN_PATH+' '+tmp_mvt_path+' '+str(tile_z)+' '+str(tile_x)+' '+str(tile_y)+' > '+tmp_geojson_path
-        subprocess.call(cmd,shell=True)
+    if is_not_original:
+        geojson_filename = str(new_z)+'_'+str(new_x)+'_'+str(new_y)+'.json'
+        tmp_geojson_path = os.path.join(GEOJSON_CACHE_DIR,geojson_filename)
+        if not os.path.exists(tmp_geojson_path):
+            cmd = TIPPECANOE_BIN_PATH+' '+tmp_mvt_path+' '+str(new_z)+' '+str(new_x)+' '+str(new_y)+' > '+tmp_geojson_path
+            subprocess.call(cmd,shell=True)
+    else:
+        geojson_filename = str(tile_z)+'_'+str(tile_x)+'_'+str(tile_y)+'.json'
+        tmp_geojson_path = os.path.join(GEOJSON_CACHE_DIR,geojson_filename)
+        if not os.path.exists(tmp_geojson_path):
+            cmd = TIPPECANOE_BIN_PATH+' '+tmp_mvt_path+' '+str(tile_z)+' '+str(tile_x)+' '+str(tile_y)+' > '+tmp_geojson_path
+            subprocess.call(cmd,shell=True)
 
     with open(tmp_geojson_path) as fr:
         oscimv4_buffer_pixels = float(OSCIMV4_BUFFER_PIXELS)/pow(2.0,float(tile_z))
