@@ -605,7 +605,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             for key in fixed_kv: merged_kv[key] = fixed_kv[key]
             
             for key in merged_kv.keys():
-                value = fixed_kv[key]
+                value = merged_kv[key]
                 
                 if key in predefined_key_idx:
                     key_idx = predefined_key_idx[key]
