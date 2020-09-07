@@ -400,6 +400,7 @@ with open(in_vtm_path,'rb') as fr:
     print 'Version',tile.version
 
     print 'Tag count',tile.num_tags
+    assert(tile.num_tags > 0)
     assert(tile.num_tags == len(tile.tags)/2)
     print 'Key count',tile.num_keys
     assert(tile.num_keys == len(tile.keys))
@@ -430,6 +431,7 @@ with open(in_vtm_path,'rb') as fr:
             value = values[value_idx]
             
         tags.append((key,value))
+    assert(len(tags) > 0)
 
     for geoobjs,geotype in [
             (tile.polygons,'POLYGON'),
