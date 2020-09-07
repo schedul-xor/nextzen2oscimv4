@@ -552,25 +552,18 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     names_kv[key] = value
 
             fixed_kv = {}
+            
             if kv.has_key('oneway') and kv['oneway'].lower() in YES_VALUES:
                 fixed_kv['oneway'] = 'yes'
-
             if kv.has_key('area') and kv['area'].lower() in YES_VALUES:
                 fixed_kv['area'] = 'yes'
-
             elif kv.has_key('is_tunnel') and kv['is_tunnel'].lower() in YES_VALUES:
                 fixed_kv['tunnel'] = 'yes'
             elif kv.has_key('is_bridge') and kv['is_bridge'].lower() in YES_VALUES:
                 fixed_kv['bridge'] = 'yes'
 
-            for explicit_kind in frozenset(['waterway','highway']):
+            for explicit_kind in frozenset(['waterway']):
                 if kv.has_key(explicit_kind): fixed_kv[explicit_kind] = kv[explicit_kind]
-
-            if kv.has_key('highway') and kv['highway'] == 'trunk':
-                if kv.has_key('kind_detail'):
-                    fixed_kv['highway'] = kv['kind_detail']
-                else:
-                    fixed_kv['highway'] = 'trunk'
 
             if kv.has_key('kind'):
                 kind_value = kv['kind']
@@ -588,11 +581,15 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 # WATER
                 elif kind_value in frozenset(['water','riverbank','ocean']):
                     fixed_kv['natural'] = 'water'
+                elif kind_value == 'river':
+                    fixed_kv['waterway'] = 'river'
 
                 # ROADS
                 elif kind_value == 'major_road':
-                    pass
-#                    fixed_kv['highway'] = 'trunk'
+                    if kv.has_key('kind_detail'):
+                        fixed_kv['highway'] = kv['kind_detail']
+                    else:
+                        fixed_kv['highway'] = 'trunk'
                 elif kind_value == 'minor_road':
                     fixed_kv['highway'] = 'residential'
                 elif kind_value == 'highway':
