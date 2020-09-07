@@ -558,6 +558,10 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             if kv.has_key('area') and kv['area'].lower() in YES_VALUES:
                 fixed_kv['area'] = 'yes'
 
+            if kv.has_key('highway') and kv['highway'] == 'trunk':
+                if kv.has_key('kind_detail') and kv['kind_detail'] == 'tertiary':
+                    kv['highway'] = 'tertiary'
+
             if kv.has_key('kind'):
                 kind_value = kv['kind']
                 
