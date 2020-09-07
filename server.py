@@ -31,24 +31,32 @@ def vtm(z,x,y):
     tile_x = int(x)
     tile_y = int(y)
 
-    if tile_z < 17:
-        mvt_filename = str(tile_z)+'_'+str(tile_x)+'_'+str(tile_y)+'.mvt'
-        tmp_mvt_path = os.path.join(MVT_CACHE_DIR,mvt_filename)
-        if not os.path.exists(tmp_mvt_path):
-            cmd = ['wget','--no-check-certificate','-O',tmp_mvt_path,'https://tile.nextzen.org/tilezen/vector/v1/256/all/'+str(tile_z)+'/'+str(tile_x)+'/'+str(tile_y)+'.mvt?api_key='+NEXTZEN_API_KEY]
-            subprocess.call(cmd)
-
-        geojson_filename = str(tile_z)+'_'+str(tile_x)+'_'+str(tile_y)+'.json'
-        tmp_geojson_path = os.path.join(GEOJSON_CACHE_DIR,geojson_filename)
-        if not os.path.exists(tmp_geojson_path):
-            cmd = TIPPECANOE_BIN_PATH+' '+tmp_mvt_path+' '+str(tile_z)+' '+str(tile_x)+' '+str(tile_y)+' > '+tmp_geojson_path
-            subprocess.call(cmd,shell=True)
-
-        with open(tmp_geojson_path) as fr:
-            oscimv4_buffer_pixels = float(OSCIMV4_BUFFER_PIXELS)/pow(2.0,float(tile_z))
-            oscimv4_binary = json2oscimv4.convert(tile_z,tile_x,tile_y,oscimv4_buffer_pixels,fr.read())
+    if tile_z >= 17:
+        new_x = tile_x
+        new_y = tile_y
+        new_z = tile_z
+        while new_z >= 17:
+            new_x = int(new_x/2)
+            new_y = int(new_y/2)
+            new_z = new_z-1
+        mvt_filename = str(new_z)+'_'+str(new_x)+'_'+str(new_y)+'.mvt'
     else:
-        oscimv4_binary = b'0123'
+        mvt_filename = str(tile_z)+'_'+str(tile_x)+'_'+str(tile_y)+'.mvt'
+        
+    tmp_mvt_path = os.path.join(MVT_CACHE_DIR,mvt_filename)
+    if not os.path.exists(tmp_mvt_path):
+        cmd = ['wget','--no-check-certificate','-O',tmp_mvt_path,'https://tile.nextzen.org/tilezen/vector/v1/256/all/'+str(tile_z)+'/'+str(tile_x)+'/'+str(tile_y)+'.mvt?api_key='+NEXTZEN_API_KEY]
+        subprocess.call(cmd)
+
+    geojson_filename = str(tile_z)+'_'+str(tile_x)+'_'+str(tile_y)+'.json'
+    tmp_geojson_path = os.path.join(GEOJSON_CACHE_DIR,geojson_filename)
+    if not os.path.exists(tmp_geojson_path):
+        cmd = TIPPECANOE_BIN_PATH+' '+tmp_mvt_path+' '+str(tile_z)+' '+str(tile_x)+' '+str(tile_y)+' > '+tmp_geojson_path
+        subprocess.call(cmd,shell=True)
+
+    with open(tmp_geojson_path) as fr:
+        oscimv4_buffer_pixels = float(OSCIMV4_BUFFER_PIXELS)/pow(2.0,float(tile_z))
+        oscimv4_binary = json2oscimv4.convert(tile_z,tile_x,tile_y,oscimv4_buffer_pixels,fr.read())
         
     return oscimv4_binary
 
