@@ -564,6 +564,11 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             if kv.has_key('kind_detail') and kv['kind_detail'] == 'service':
                 fixed_kv['highway'] = 'service'
 
+            elif kv.has_key('is_tunnel') and kv['is_tunnel'].lower() in YES_VALUES:
+                fixed_kv['tunnel'] = 'yes'
+            elif kv.has_key('is_bridge') and kv['is_bridge'].lower() in YES_VALUES:
+                fixed_kv['bridge'] = 'yes'
+
             for explicit_kind in frozenset(['waterway','highway']):
                 if kv.has_key(explicit_kind): fixed_kv[explicit_kind] = kv[explicit_kind]
 
@@ -573,11 +578,6 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 if kind_value == 'building':
                     fixed_kv['building'] = 'yes'
                     
-                elif kind_value == 'is_tunnel' and kind_value.lower() in YES_VALUES:
-                    fixed_kv['tunnel'] = 'yes'
-                elif kind_value == 'is_bridge' and kind_value.lower() in YES_VALUES:
-                    fixed_kv['bridge'] = 'yes'
-
                 elif kind_value in frozenset(['earth','cemetery','commercial','forest','grass','industrial']):
                     fixed_kv['landuse'] = 'urban'
 
@@ -596,6 +596,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     fixed_kv['highway'] = 'residential'
                 elif kind_value == 'highway':
                     fixed_kv['highway'] = 'motorway'
+                elif kind_value == 'residential':
+                    fixed_kv['highway'] = 'service'
                 elif kind_value in frozenset(['footway','bus_stop','unclassified']):
                     fixed_kv['highway'] = kind_value
 
