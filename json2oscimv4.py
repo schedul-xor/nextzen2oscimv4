@@ -558,15 +558,6 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             if kv.has_key('area') and kv['area'].lower() in YES_VALUES:
                 fixed_kv['area'] = 'yes'
 
-            if kv.has_key('highway') and kv['highway'] == 'trunk':
-                if kv.has_key('kind_detail'):
-                    fixed_kv['highway'] = kv['kind_detail']
-                else:
-                    fixed_kv['highway'] = 'trunk'
-                    
-            if kv.has_key('kind_detail') and kv['kind_detail'] == 'service':
-                fixed_kv['highway'] = 'service'
-
             elif kv.has_key('is_tunnel') and kv['is_tunnel'].lower() in YES_VALUES:
                 fixed_kv['tunnel'] = 'yes'
             elif kv.has_key('is_bridge') and kv['is_bridge'].lower() in YES_VALUES:
@@ -574,6 +565,12 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
             for explicit_kind in frozenset(['waterway','highway']):
                 if kv.has_key(explicit_kind): fixed_kv[explicit_kind] = kv[explicit_kind]
+
+            if kv.has_key('highway') and kv['highway'] == 'trunk':
+                if kv.has_key('kind_detail'):
+                    fixed_kv['highway'] = kv['kind_detail']
+                else:
+                    fixed_kv['highway'] = 'trunk'
 
             if kv.has_key('kind'):
                 kind_value = kv['kind']
