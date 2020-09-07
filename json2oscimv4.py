@@ -598,6 +598,11 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 elif kind_value in frozenset(['aerodrome','apron','helipad']):
                     fixed_kv['aeroway'] = kind_value
 
+                # PATH
+                elif kind_value == 'path':
+                    if kv.has_key('kind_detail') and kv['kind_detail'] == 'footway' and kv.has_key('footway') and kv['footway'] == 'sidewalk':
+                        fixed_kv['highway'] = 'pedestrian'
+
                 elif kind_value in frozenset(['pitch','park','playground','common']):
                     fixed_kv['leisure'] = kind_value
 
