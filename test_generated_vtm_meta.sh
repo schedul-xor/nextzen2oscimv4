@@ -12,6 +12,5 @@
 # sh test_generated_vtm.sh 15 29097 12914
 # sh test_generated_vtm.sh 15 29097 12915
 
-sh test_generated_vtm.sh 15 29092 12900
-sh test_generated_vtm.sh 15 29093 12900
-sh test_generated_vtm.sh 15 29093 12901
+sh test_generated_vtm.sh 15 29092 12900 # Ogikubo
+sh test_generated_vtm.sh 16 58186 25804

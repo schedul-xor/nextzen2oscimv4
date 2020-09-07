@@ -562,7 +562,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             elif kv.has_key('is_bridge') and kv['is_bridge'].lower() in YES_VALUES:
                 fixed_kv['bridge'] = 'yes'
 
-            for explicit_kind in frozenset(['waterway']):
+            for explicit_kind in frozenset(['waterway','natural']):
                 if kv.has_key(explicit_kind): fixed_kv[explicit_kind] = kv[explicit_kind]
 
             if kv.has_key('kind'):
