@@ -561,6 +561,9 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             if kv.has_key('highway') and kv['highway'] == 'trunk':
                 if kv.has_key('kind_detail'):
                     fixed_kv['highway'] = kv['kind_detail']
+                else
+                    fixed_kv['highway'] = 'trunk'
+                    
             if kv.has_key('kind_detail') and kv['kind_detail'] == 'service':
                 fixed_kv['highway'] = 'service'
 
@@ -591,7 +594,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 # ROADS
                 elif kind_value == 'major_road':
-                    fixed_kv['highway'] = 'trunk'
+                    pass
+#                    fixed_kv['highway'] = 'trunk'
                 elif kind_value == 'minor_road':
                     fixed_kv['highway'] = 'residential'
                 elif kind_value == 'highway':
