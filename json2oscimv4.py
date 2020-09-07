@@ -564,8 +564,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             if kv.has_key('kind_detail') and kv['kind_detail'] == 'service':
                 fixed_kv['highway'] = 'service'
 
-            if kv.has_key('waterway'):
-                fixed_kv['waterway'] = kv['waterway']
+            for explicit_kind in frozenset(['waterway','highway']):
+                if kv.has_key(explicit_kind): fixed_kv[explicit_kind] = kv[explicit_kind]
 
             if kv.has_key('kind'):
                 kind_value = kv['kind']
@@ -623,6 +623,29 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 elif kind_value in frozenset(['viewpoint','information','park']):
                     fixed_kv['tourism'] = kind_value
+
+                elif kind in frozenset([
+                        'bar',
+                        'bicycle',
+                        'books',
+                        'cafe',
+                        'clothes',
+                        'convenience',
+                        'dry_cleaning',
+                        'fast_food',
+                        'grave_yard',
+                        'parking',
+                        'pharmacy',
+                        'place_of_worship',
+                        'police',
+                        'post_office',
+                        'pub',
+                        'restaurant',
+                        'school',
+                        'supermarket',
+                        'university',
+                ]):
+                    fixed_kv['amenity'] = kind_value
             
             merged_kv = {}
             for key in names_kv: merged_kv[key] = names_kv[key]
