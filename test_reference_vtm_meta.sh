@@ -14,3 +14,4 @@
 
 sh test_reference_vtm.sh 15 29092 12900 # Ogikubo
 sh test_reference_vtm.sh 16 58186 25804
+sh test_reference_vtm.sh 16 58201 25805 # Shinjuku-gyoen

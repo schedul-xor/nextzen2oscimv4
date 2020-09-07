@@ -562,6 +562,10 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             elif kv.has_key('is_bridge') and kv['is_bridge'].lower() in YES_VALUES:
                 fixed_kv['bridge'] = 'yes'
 
+            if kv.has_key('leisure'):
+                leisure = kv['leisure']
+                fixed_kv['leisure'] = leisure
+                    
             if kv.has_key('natural'):
                 natural = kv['natural']
                 if natural in frozenset(['village_green','meadow']):
