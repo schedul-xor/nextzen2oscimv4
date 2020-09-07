@@ -723,7 +723,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 x,y = ll2xy(c[0],c[1])
                 oscim_element.coordinates.extend([x,y])
-                oscim_element.num_indices = 0
+                oscim_element.indices.extend([1])
+                oscim_element.num_indices = 1
                 found_points.append(oscim_element)
 
             elif geometry_type == 'MultiPoint':
@@ -735,6 +736,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     x,y = ll2xy(cp[0],cp[1])
                     oscim_element.coordinates.extend([x,y])
                     oscim_element.num_indices = 0
+                    oscim_element.indices.extend([1])
+                    oscim_element.num_indices = 1
                     found_points.append(oscim_element)
 
             elif geometry_type == 'LineString':
