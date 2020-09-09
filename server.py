@@ -46,7 +46,7 @@ def vtm(z,x,y):
         mvt_filename = str(tile_z)+'_'+str(tile_x)+'_'+str(tile_y)+'.mvt'
         
     tmp_mvt_path = os.path.join(MVT_CACHE_DIR,mvt_filename)
-    if os.stat(tmp_mvt_path).st_size == 0: os.unlink(tmp_mvt_path) # Remove zero-sized files
+    if os.path.exists(tmp_mvt_path) and os.stat(tmp_mvt_path).st_size == 0: os.unlink(tmp_mvt_path) # Remove zero-sized files
     if not os.path.exists(tmp_mvt_path):
         cmd = ['wget','--no-check-certificate','-O',tmp_mvt_path,'https://tile.nextzen.org/tilezen/vector/v1/256/all/'+str(tile_z)+'/'+str(tile_x)+'/'+str(tile_y)+'.mvt?api_key='+NEXTZEN_API_KEY]
         subprocess.call(cmd)
@@ -54,14 +54,14 @@ def vtm(z,x,y):
     if is_not_original:
         geojson_filename = str(new_z)+'_'+str(new_x)+'_'+str(new_y)+'.json'
         tmp_geojson_path = os.path.join(GEOJSON_CACHE_DIR,geojson_filename)
-        if os.stat(tmp_geojson_path).st_size == 0: os.unlink(tmp_geojson_path) # Remove zero-sized files
+        if os.path.exists(tmp_geojson_path) and os.stat(tmp_geojson_path).st_size == 0: os.unlink(tmp_geojson_path) # Remove zero-sized files
         if not os.path.exists(tmp_geojson_path):
             cmd = TIPPECANOE_BIN_PATH+' '+tmp_mvt_path+' '+str(new_z)+' '+str(new_x)+' '+str(new_y)+' > '+tmp_geojson_path
             subprocess.call(cmd,shell=True)
     else:
         geojson_filename = str(tile_z)+'_'+str(tile_x)+'_'+str(tile_y)+'.json'
         tmp_geojson_path = os.path.join(GEOJSON_CACHE_DIR,geojson_filename)
-        if os.stat(tmp_geojson_path).st_size == 0: os.unlink(tmp_geojson_path) # Remove zero-sized files
+        if os.path.exists(tmp_geojson_path) and os.stat(tmp_geojson_path).st_size == 0: os.unlink(tmp_geojson_path) # Remove zero-sized files
         if not os.path.exists(tmp_geojson_path):
             cmd = TIPPECANOE_BIN_PATH+' '+tmp_mvt_path+' '+str(tile_z)+' '+str(tile_x)+' '+str(tile_y)+' > '+tmp_geojson_path
             subprocess.call(cmd,shell=True)
