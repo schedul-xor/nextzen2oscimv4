@@ -483,20 +483,20 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
             fixed_kv = {}
             
-            if kv.has_key('oneway') and kv['oneway'].lower() in YES_VALUES:
+            if 'oneway' in kv and kv['oneway'].lower() in YES_VALUES:
                 fixed_kv['oneway'] = 'yes'
-            if kv.has_key('area') and kv['area'].lower() in YES_VALUES:
+            if 'area' in kv and kv['area'].lower() in YES_VALUES:
                 fixed_kv['area'] = 'yes'
-            elif kv.has_key('is_tunnel') and kv['is_tunnel'].lower() in YES_VALUES:
+            elif 'is_tunnel' in kv and kv['is_tunnel'].lower() in YES_VALUES:
                 fixed_kv['tunnel'] = 'yes'
-            elif kv.has_key('is_bridge') and kv['is_bridge'].lower() in YES_VALUES:
+            elif 'is_bridge' in kv and kv['is_bridge'].lower() in YES_VALUES:
                 fixed_kv['bridge'] = 'yes'
 
-            if kv.has_key('leisure'):
+            if 'leisure' in kv:
                 leisure = kv['leisure']
                 fixed_kv['leisure'] = leisure
                     
-            if kv.has_key('natural'):
+            if 'natural' in kv:
                 natural = kv['natural']
                 if natural in frozenset(['village_green','meadow']):
                     fixed_kv['landuse'] = natural
@@ -504,7 +504,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 else:
                     fixed_kv['natural'] = natural
                     
-            if kv.has_key('landuse'):
+            if 'landuse' in kv:
                 landuse = kv['landuse']
                 if landuse in frozenset(['park','natural_reserve']):
                     fixed_kv['leisure'] = landuse
@@ -516,15 +516,15 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     fixed_kv['landuse'] = landuse
                 
             for explicit_kind in frozenset(['waterway']):
-                if kv.has_key(explicit_kind): fixed_kv[explicit_kind] = kv[explicit_kind]
+                if explicit_kind in kv: fixed_kv[explicit_kind] = kv[explicit_kind]
 
-            if kv.has_key('kind'):
+            if 'kind' in kv:
                 kind_value = kv['kind']
                 
                 if kind_value == 'building':
                     fixed_kv['building'] = 'yes'
 
-                    if kv.has_key('building:levels'):
+                    if 'building:levels' in kv:
                         fixed_kv['height'] = int(kv['building:levels'])*420
                     
                 elif kind_value in frozenset(['earth']):
@@ -544,7 +544,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 # ROADS
                 elif kind_value == 'major_road':
-                    if kv.has_key('kind_detail'):
+                    if 'kind_detail' in kv:
                         fixed_kv['highway'] = kv['kind_detail']
                     else:
                         fixed_kv['highway'] = 'trunk'
@@ -567,7 +567,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 # PATH
                 elif kind_value == 'path':
-                    if kv.has_key('kind_detail'):
+                    if 'kind_detail' in kv:
                         kind_detail = kv['kind_detail']
                         if kind_detail == 'footway':
                             fixed_kv['highway'] = 'footway'
