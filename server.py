@@ -32,12 +32,12 @@ def vtm(z,x,y):
     tile_y = int(y)
 
     is_not_original = False
-    if tile_z >= 17:
+    if tile_z >= 18:
         is_not_original = True
         new_x = tile_x
         new_y = tile_y
         new_z = tile_z
-        while new_z >= 17:
+        while new_z >= 18:
             new_x = int(new_x/2)
             new_y = int(new_y/2)
             new_z = new_z-1
