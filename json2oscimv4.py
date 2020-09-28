@@ -638,7 +638,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 if tag in tag2idx:
                     tag_idx = tag2idx[tag]
                 else:
-                    tag_idx = len(serialized_tags)/2
+                    tag_idx = int(len(serialized_tags)/2)
                     tag2idx[tag] = tag_idx
                     serialized_tags.append(int(key_idx))
                     serialized_tags.append(int(value_idx))
@@ -747,7 +747,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
     if len(found_polygons) > 0: oscim_tile.polygons.extend(found_polygons)
     if len(found_lines) > 0: oscim_tile.lines.extend(found_lines)
 
-    oscim_tile.num_tags = len(serialized_tags)/2
+    oscim_tile.num_tags = int(len(serialized_tags)/2)
     oscim_tile.tags.extend(serialized_tags)
     oscim_tile.keys.extend(oscim_keys)
     oscim_tile.num_keys = len(oscim_keys)
