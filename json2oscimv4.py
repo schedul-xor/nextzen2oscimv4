@@ -642,7 +642,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     tag2idx[tag] = tag_idx
                     serialized_tags.append(key_idx)
                     serialized_tags.append(value_idx)
-                tag_idxs_in_feature.append(tag_idx)
+                tag_idxs_in_feature.append(int(tag_idx))
             if len(tag_idxs_in_feature) == 0: continue
 
             geometry = feature['geometry']
