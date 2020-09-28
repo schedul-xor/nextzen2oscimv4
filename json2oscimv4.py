@@ -1,3 +1,18 @@
+# Copyright (C) Izumi Kawashima
+#
+# json2oscimv4 is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# json2oscimv4 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with json2oscimv4.  If not, see <http://www.gnu.org/licenses/>.
+
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
@@ -458,93 +473,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             for key in properties:
                 if key in frozenset(['id','sort_rank','source','min_zoom','surface']): continue
                 value = properties[key]
-                value = unicode(value)
                 kv[key] = value
-
-            # for key in kv.keys():
-            #     value = kv[key]
-
-            #     if key == 'kind' and value in frozenset(['earth','cemetery','commercial','forest','grass','industrial']):
-            #         key = 'landuse'
-            #         value = 'urban'
-                    
-            #     elif key == 'kind' and value == 'locality':
-            #         key = 'boundary'
-            #         value = 'administrative'
-                    
-            #     elif key == 'kind' and value in frozenset(['water','riverbank','ocean']):
-            #         key = 'natural'
-            #         value = 'water'
-            #     if key == 'kind' and value == 'river':
-            #         key = 'waterway'
-            #         value = 'river'
-                    
-            #     elif key == 'kind' and value == 'major_road':
-            #         key = 'highway'
-            #         value = 'trunk'
-            #     elif key == 'kind' and value == 'minor_road':
-            #         key = 'highway'
-            #         value = 'residential'
-            #     elif key == 'kind' and value == 'highway':
-            #         key = 'highway'
-            #         value = 'motorway'
-            #     elif key == 'highway' and value == 'residential':
-            #         key = 'highway'
-            #         value = 'service'
-            #     elif key == 'kind' and value in frozenset(['footway','bus_stop','unclassified']):
-            #         key = 'highway'
-
-            #     elif key == 'kind' and value in frozenset(['aerodrome','apron','helipad']):
-            #         key = 'aeroway'
-            #     elif key == 'kind_detail' and value in frozenset (['runway','taxiway']):
-            #         key = 'aeroway'
-
-            #     elif key == 'kind' and value in frozenset(['pitch','park','playground','common']):
-            #         key = 'leisure'
-                    
-            #     elif key == 'kind' and value == 'building':
-            #         key = 'building'
-            #         value = 'yes'
-                    
-            #     elif key == 'kind_detail' and value == 'rail':
-            #         key = 'railway'
-            #     elif key == 'kind_detail' and value == 'subway':
-            #         key = 'railway'
-            #     elif key == 'kind' and value == 'station':
-            #         key = 'railway'
-                    
-            #     elif key == 'kind' and value in frozenset(['viewpoint','information','park']):
-            #         key = 'tourism'
-
-            #     elif key == 'is_tunnel' and value == 'True':
-            #         key = 'tunnel'
-            #         value = 'yes'
-                    
-            #     elif key == 'is_bridge' and value == 'True':
-            #         key = 'bridge'
-            #         value = 'yes'
-
-            #     elif key == 'kind' and value in frozenset([
-            #             'bar',
-            #             'bicycle',
-            #             'books',
-            #             'cafe',
-            #             'clothes',
-            #             'convenience',
-            #             'dry_cleaning',
-            #             'fast_food',
-            #             'parking',
-            #             'pharmacy',
-            #             'place_of_worship',
-            #             'police',
-            #             'post_office',
-            #             'pub',
-            #             'restaurant',
-            #             'school',
-            #             'supermarket',
-            #             'university',
-            #     ]):
-            #         key = 'amenity'
 
             names_kv = {}
             for key in kv.keys():
@@ -825,4 +754,4 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
     oscim_tile.values.extend(oscim_values)
     oscim_tile.num_vals = len(oscim_values)
 
-    return b'0123'+oscim_tile.SerializeToString()
+    return b'0123'+oscim_tile.SerializeToString() # TODO: Header bytes to be fixed (although it is readable from vtm)

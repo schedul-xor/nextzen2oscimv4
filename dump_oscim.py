@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
 import os
@@ -21,7 +21,7 @@ OSCIMV4_BUFFER_PIXELS = int(sys.argv[5])
 out_json_path = sys.argv[6]
 
 buffer_pixels = 5
-print 'BUFFER_PIXELS=',buffer_pixels
+print('BUFFER_PIXELS='+str(buffer_pixels))
         
 EXTENDED_SIZE = SIZE-buffer_pixels
 
@@ -397,14 +397,14 @@ with open(in_vtm_path,'rb') as fr:
     tile = TileData_v4_pb2.Data()
     tile.ParseFromString(content)
 
-    print 'Version',tile.version
+    print('Version '+str(tile.version))
 
-    print 'Tag count',tile.num_tags
+    print('Tag count '+str(tile.num_tags))
     assert(tile.num_tags > 0)
     assert(tile.num_tags == len(tile.tags)/2)
-    print 'Key count',tile.num_keys
+    print('Key count '+str(tile.num_keys))
     assert(tile.num_keys == len(tile.keys))
-    print 'Value count',tile.num_vals
+    print('Value count '+str(tile.num_vals))
     assert(tile.num_vals == len(tile.values))
 
     keys = tile.keys

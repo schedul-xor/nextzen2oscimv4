@@ -16,7 +16,8 @@ OSCIMV4_BUFFER_PIXELS=5
 
 mkdir -p tmp
 mkdir -p tmp/mvt
-wget -nc --no-check-certificate -O tmp/mvt/${Z}_${X}_${Y}_${MVT_BUFFER_PIXELS}.mvt https://tile.nextzen.org/tilezen/vector/v1/256/all/${Z}/${X}/${Y}.mvt?api_key=${NEXTZEN_API_KEY}
+#wget -nc --no-check-certificate -O tmp/mvt/${Z}_${X}_${Y}_${MVT_BUFFER_PIXELS}.mvt https://tile.nextzen.org/tilezen/vector/v1/256/all/${Z}/${X}/${Y}.mvt?api_key=${NEXTZEN_API_KEY}
+wget -nc --no-check-certificate -O tmp/mvt/${Z}_${X}_${Y}_${MVT_BUFFER_PIXELS}.mvt http://tile0.ogiqvo.com:22380/maps/osm/${Z}/${X}/${Y}.pbf
 
 # mkdir -p tmp/oscimv4
 # mkdir -p tmp/oscimv4_geojson
@@ -31,4 +32,4 @@ tippecanoe-decode tmp/mvt/${Z}_${X}_${Y}_${MVT_BUFFER_PIXELS}.mvt ${Z} ${X} ${Y}
 mkdir -p tmp/mvt2geojson2oscimv4
 cat tmp/mvt2geojson/${Z}_${X}_${Y}_${MVT_BUFFER_PIXELS}.json | python call_json2oscimv4.py ${Z} ${X} ${Y} ${OSCIMV4_BUFFER_PIXELS} tmp/mvt2geojson2oscimv4/${Z}_${X}_${Y}_${OSCIMV4_BUFFER_PIXELS}.vtm
 mkdir -p tmp/mvt2geojson2oscimv42geojson
-python dump_oscim.py tmp/mvt2geojson2oscimv4/${Z}_${X}_${Y}_${OSCIMV4_BUFFER_PIXELS}.vtm ${Z} ${X} ${Y} ${OSCIMV4_BUFFER_PIXELS} tmp/mvt2geojson2oscimv42geojson/${Z}_${X}_${Y}.json
+python3 dump_oscim.py tmp/mvt2geojson2oscimv4/${Z}_${X}_${Y}_${OSCIMV4_BUFFER_PIXELS}.vtm ${Z} ${X} ${Y} ${OSCIMV4_BUFFER_PIXELS} tmp/mvt2geojson2oscimv42geojson/${Z}_${X}_${Y}.json
