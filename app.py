@@ -66,7 +66,7 @@ def vtm(z,x,y):
             cmd = TIPPECANOE_BIN_PATH+' '+tmp_mvt_path+' '+str(tile_z)+' '+str(tile_x)+' '+str(tile_y)+' > '+tmp_geojson_path
             subprocess.call(cmd,shell=True)
 
-    with open(tmp_geojson_path) as fr:
+    with open(tmp_geojson_path,encoding='UTF-8') as fr:
         oscimv4_buffer_pixels = float(OSCIMV4_BUFFER_PIXELS)/pow(2.0,float(tile_z))
         oscimv4_binary = json2oscimv4.convert(tile_z,tile_x,tile_y,oscimv4_buffer_pixels,fr.read())
         
