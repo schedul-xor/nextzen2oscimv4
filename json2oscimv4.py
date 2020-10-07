@@ -18,10 +18,12 @@
 
 import json
 import TileData_v4_pb2
-from pyproj import Transformer
+from pyproj import Transformer,Proj
 
-transformer3857to4326 = Transformer.from_crs(3857,4326)
-transformer4326to3857 = Transformer.from_crs(4326,3857)
+EPSG3857 = Proj('+init=EPSG:3857')
+EPSG4326 = Proj('+init=EPSG:4326')
+transformer3857to4326 = Transformer.from_proj(EPSG3857,EPSG4326)
+transformer4326to3857 = Transformer.from_proj(EPSG4326,EPSG3857)
 
 SIZE = 256
 
@@ -399,6 +401,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
     def ll2xy(lon,lat):
         lon3857,lat3857 = transformer4326to3857.transform(lon,lat)
+#        print(lon,lat,lon3857,lat3857)
         rx = float(lon3857-min_lon3857)/float(max_lon3857-min_lon3857)
         ry = float(lat3857-min_lat3857)/float(max_lat3857-min_lat3857)
 

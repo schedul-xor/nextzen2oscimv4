@@ -4,11 +4,13 @@
 import os
 import sys
 import TileData_v4_pb2
-from pyproj import Proj,transform
+from pyproj import Proj,Transformer
 import json
 
-EPSG3857 = Proj(init='epsg:3857')
-EPSG4326 = Proj(init='epsg:4326')
+EPSG3857 = Proj('+init=EPSG:3857')
+EPSG4326 = Proj('+init=EPSG:4326')
+transformer3857to4326 = Transformer.from_proj(EPSG3857,EPSG4326)
+transformer4326to3857 = Transformer.from_proj(EPSG4326,EPSG3857)
 
 SIZE = 256
 SCALE_FACTOR = 20037508.342789244
@@ -34,8 +36,8 @@ max_lat3857 = ((center - (tile_y-paz))/center)*SCALE_FACTOR
 min_lon3857 = (((tile_x-paz)-center)/center)*SCALE_FACTOR
 max_lon3857 = (((tile_x+SIZE+paz)-center)/center)*SCALE_FACTOR
 
-min_lon4326,min_lat4326 = transform(EPSG3857,EPSG4326,min_lon3857,min_lat3857)
-max_lon4326,max_lat4326 = transform(EPSG3857,EPSG4326,max_lon3857,max_lat3857)
+min_lon4326,min_lat4326 = transformer3857to4326.transform(min_lon3857,min_lat3857)
+max_lon4326,max_lat4326 = transformer3857to4326.transform(max_lon3857,max_lat3857)
 
 def xy2ll(x,y):
     rx = float(x)/4096.0
@@ -50,7 +52,7 @@ def xy2ll(x,y):
 
     lon3857 = min_lon3857+(max_lon3857-min_lon3857)*rx
     lat3857 = min_lat3857+(max_lat3857-min_lat3857)*ry
-    lon4326,lat4326 = transform(EPSG3857,EPSG4326,lon3857,lat3857)
+    lon4326,lat4326 = transformer3857to4326.transform(lon3857,lat3857)
     return [lon4326,lat4326]
 
 TAG_PREDEFINED_KEYS = [
@@ -415,7 +417,7 @@ with open(in_vtm_path,'rb') as fr:
     raw_tags = tile.tags
 #    print 'raw tags',len(raw_tags),raw_tags
     tags = []
-    for idx in range(len(raw_tags)/2):
+    for idx in range(int(len(raw_tags)/2)):
         key_idx = raw_tags[idx*2]
         if key_idx < 256:
             key = TAG_PREDEFINED_KEYS[key_idx]
