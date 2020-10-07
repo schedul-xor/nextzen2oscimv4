@@ -30,6 +30,6 @@ wget -nc --no-check-certificate -O tmp/mvt/${Z}_${X}_${Y}_${MVT_BUFFER_PIXELS}.m
 mkdir -p tmp/mvt2geojson
 tippecanoe-decode tmp/mvt/${Z}_${X}_${Y}_${MVT_BUFFER_PIXELS}.mvt ${Z} ${X} ${Y}> tmp/mvt2geojson/${Z}_${X}_${Y}_${MVT_BUFFER_PIXELS}.json
 mkdir -p tmp/mvt2geojson2oscimv4
-cat tmp/mvt2geojson/${Z}_${X}_${Y}_${MVT_BUFFER_PIXELS}.json | python call_json2oscimv4.py ${Z} ${X} ${Y} ${OSCIMV4_BUFFER_PIXELS} tmp/mvt2geojson2oscimv4/${Z}_${X}_${Y}_${OSCIMV4_BUFFER_PIXELS}.vtm
+cat tmp/mvt2geojson/${Z}_${X}_${Y}_${MVT_BUFFER_PIXELS}.json | python3 call_json2oscimv4.py ${Z} ${X} ${Y} ${OSCIMV4_BUFFER_PIXELS} tmp/mvt2geojson2oscimv4/${Z}_${X}_${Y}_${OSCIMV4_BUFFER_PIXELS}.vtm
 mkdir -p tmp/mvt2geojson2oscimv42geojson
 python3 dump_oscim.py tmp/mvt2geojson2oscimv4/${Z}_${X}_${Y}_${OSCIMV4_BUFFER_PIXELS}.vtm ${Z} ${X} ${Y} ${OSCIMV4_BUFFER_PIXELS} tmp/mvt2geojson2oscimv42geojson/${Z}_${X}_${Y}.json

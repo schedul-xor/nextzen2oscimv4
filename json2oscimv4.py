@@ -18,10 +18,10 @@
 
 import json
 import TileData_v4_pb2
-from pyproj import Proj,transform
+from pyproj import Transformer
 
-EPSG3857 = Proj(init='epsg:3857')
-EPSG4326 = Proj(init='epsg:4326')
+transformer3857to4326 = Transformer.from_crs(3857,4326)
+transformer4326to3857 = Transformer.from_crs(4326,3857)
 
 SIZE = 256
 
@@ -380,8 +380,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
     min_lon3857 = (((tile_x-paz)-center)/center)*SCALE_FACTOR
     max_lon3857 = (((tile_x+SIZE+paz)-center)/center)*SCALE_FACTOR
 
-    min_lon4326,min_lat4326 = transform(EPSG3857,EPSG4326,min_lon3857,min_lat3857)
-    max_lon4326,max_lat4326 = transform(EPSG3857,EPSG4326,max_lon3857,max_lat3857)
+    min_lon4326,min_lat4326 = transformer3857to4326.transform(min_lon3857,min_lat3857)
+    max_lon4326,max_lat4326 = transformer3857to4326.transform(max_lon3857,max_lat3857)
 
     oscim_tile = TileData_v4_pb2.Data()
     oscim_tile.version = 4
@@ -398,7 +398,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
     value2oscim_idx = {}
 
     def ll2xy(lon,lat):
-        lon3857,lat3857 = transform(EPSG4326,EPSG3857,lon,lat)
+        lon3857,lat3857 = transformer4326to3857.transform(lon,lat)
         rx = float(lon3857-min_lon3857)/float(max_lon3857-min_lon3857)
         ry = float(lat3857-min_lat3857)/float(max_lat3857-min_lat3857)
 
