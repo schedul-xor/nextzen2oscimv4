@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with json2oscimv4.  If not, see <http://www.gnu.org/licenses/>.
 
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
 import json

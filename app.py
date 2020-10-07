@@ -4,7 +4,7 @@
 import os
 import subprocess
 from flask import Flask
-import json2oscimv4 # In this directory
+import nextzenjson2oscimv4 # In this directory
 
 TIPPECANOE_BIN_PATH = '/usr/local/bin/tippecanoe-decode'
 
@@ -67,7 +67,7 @@ def vtm(z,x,y):
 
     with open(tmp_geojson_path,encoding='UTF-8') as fr:
         oscimv4_buffer_pixels = float(OSCIMV4_BUFFER_PIXELS)/pow(2.0,float(tile_z))
-        oscimv4_binary = json2oscimv4.convert(tile_z,tile_x,tile_y,oscimv4_buffer_pixels,fr.read())
+        oscimv4_binary = nextzenjson2oscimv4.convert(tile_z,tile_x,tile_y,oscimv4_buffer_pixels,fr.read())
         
     return oscimv4_binary
 
