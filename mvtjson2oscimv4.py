@@ -524,7 +524,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             if 'class' in kv:
                 class_value = kv['class']
                 
-                if class_value == 'building':
+                if class_value == 'yes':
                     fixed_kv['building'] = 'yes'
 
                     if 'building:levels' in kv:
