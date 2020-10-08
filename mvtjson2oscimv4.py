@@ -547,6 +547,17 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     elif type_ in frozenset(['water','riverbank','ocean']):
                         fixed_kv['natural'] = 'water'
 
+                elif class_value == 'landuse':
+                    type_ = kv['type']
+                    if type_ in frozenset(['park','natural_reserve']):
+                        fixed_kv['leisure'] = type_
+                    elif type_ == 'field':
+                        fixed_kv['landuse'] = 'farmland'
+                    elif type_ in frozenset(['grassland','scrub']):
+                        fixed_kv['natural'] = type_
+                    else:
+                        fixed_kv['landuse'] = type_
+
                 # ROADS
                 elif class_value == 'major_road':
                     if 'type' in kv:
