@@ -546,16 +546,18 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     fixed_kv['building'] = 'yes'
                     fixed_kv['type'] = type_
 
-                    for (key,per_height) in frozenset([('height',120.0),('min_height',120.0),('levels',120.0*3)]):
+                    for (key,per_height) in frozenset([('height',120.0),('min_height',120.0),('building:levels',1)]):
                         if key in kv:
                             _height = kv[key]
                             if type(_height) is str:
                                 if _height[-1] == 'm':
                                     _height = _height[:-1]
                                 _height = _height.strip()
-                            fixed_kv[key] = str(float(_height)*per_height)
-                    if 'colour' in kv:
-                        fixed_kv['colour'] = kv['colour']
+                            fixed_height = float(_height)*per_height
+                            fixed_kv[key] = str(fixed_height)
+#                            print(key,_height,fixed_height)
+                            
+                    if 'colour' in kv: fixed_kv['colour'] = kv['colour']
 
                 elif type_ in frozenset([
                         'bar',
