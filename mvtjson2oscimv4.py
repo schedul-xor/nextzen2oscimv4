@@ -408,7 +408,6 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
     def ll2xy(lon,lat):
         lon3857,lat3857 = transformer4326to3857.transform(lon,lat)
-#        print(lon,lat,lon3857,lat3857)
         rx = float(lon3857-min_lon3857)/float(max_lon3857-min_lon3857)
         ry = float(lat3857-min_lat3857)/float(max_lat3857-min_lat3857)
 
@@ -474,6 +473,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
     j = json.loads(fr)
     layers = j['features']
     for layer in layers:
+        if layer['properties']['layer'] in frozenset(['land','admin_lines']): continue
+        
         features = layer['features']
         for feature in features:
             tag_idxs_in_feature = []
@@ -568,7 +569,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                         'supermarket',
                         'university',
                 ]):
-                    fixed_kv['amenity'] = class_value
+                    fixed_kv['amenity'] = type_
                     
             if 'class' in kv:
                 class_value = kv['class']
