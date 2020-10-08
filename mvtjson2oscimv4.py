@@ -524,7 +524,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             if 'class' in kv:
                 class_value = kv['class']
                 
-                if class_value == 'yes':
+                type_ = kv['type']
+                if type_ == 'yes':
                     fixed_kv['building'] = 'yes'
 
                     if 'building:levels' in kv:
@@ -539,7 +540,6 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 # WATER
                 elif class_value == 'natural':
-                    type_ = kv['type']
                     if type_ == 'lake;pond':
                         fixed_kv['water'] = 'pond'
                     elif type_ == 'river':
@@ -549,13 +549,11 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                         
                 # LEISURE
                 elif class_value == 'leisure':
-                    type_ = kv['type']
                     if type_ in frozenset(['pitch','park','playground','common','garden']):
                         fixed_kv['leisure'] = type_
 
                 # LANDUSE
                 elif class_value == 'landuse':
-                    type_ = kv['type']
                     if type_ in frozenset(['park','natural_reserve']):
                         fixed_kv['leisure'] = type_
                     elif type_ == 'field':
@@ -567,7 +565,6 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 # ROADS
                 elif class_value == 'highway':
-                    type_ = kv['type']
                     if type_ == 'minor_road':
                         fixed_kv['highway'] = 'residential'
                     elif type_ == 'highway':
