@@ -540,13 +540,21 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                         'warehouse',
                         'public',
                         'driving_school',
-                        'manifacture'
+                        'manifacture',
+                        'roof'
                 ]) and geometry_type == 'Polygon':
                     fixed_kv['building'] = 'yes'
                     fixed_kv['type'] = type_
 
-                    if 'height' in kv:
-                        fixed_kv['height'] = str(float(kv['height'])*120.0)
+                    for (key,per_height) in frozenset([('height',120.0),('min_height',120.0),('levels',120.0*3)]):
+                        if key in kv:
+                            _height = kv[key]
+                            if _height[-1] == 'm':
+                                _height = _height[:-1]
+                            _height = _height.strip()
+                            fixed_kv[key] = str(float(_height)*per_height)
+                    if 'colour' in kv:
+                        fixed_kv['colour'] = kv['colour']
 
                 elif type_ in frozenset([
                         'bar',
