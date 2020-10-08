@@ -568,31 +568,26 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 # ROADS
                 elif class_value == 'highway':
                     type_ = kv['type']
-                if type_ == 'minor_road':
-                    fixed_kv['highway'] = 'residential'
-                elif type_ == 'highway':
-                    fixed_kv['highway'] = 'motorway'
-                elif type_ == 'residential':
-                    fixed_kv['highway'] = 'service'
-                else:
-                    fixed_kv['highway'] = type_
+                    if type_ == 'minor_road':
+                        fixed_kv['highway'] = 'residential'
+                    elif type_ == 'highway':
+                        fixed_kv['highway'] = 'motorway'
+                    elif type_ == 'residential':
+                        fixed_kv['highway'] = 'service'
+                    elif type_ == 'pedestrian':
+                        fixed_kv['highway'] = 'footway'
+
+                    # PATH
+                    else: 
+                        fixed_kv['type'] = type_
 
                 # RAILS
                 elif class_value in frozenset(['rail','subway','station']):
                     fixed_kv['railway'] = class_value
-                    
+
                 # AIR
                 elif class_value in frozenset(['aerodrome','apron','helipad']):
                     fixed_kv['aeroway'] = class_value
-
-                # PATH
-                elif class_value == 'path':
-                    if 'type' in kv:
-                        type_ = kv['type']
-                        if type_ == 'pedestrian':
-                            type_ = 'footway'
-                        fixed_kv['type'] = type_
-                        
 
                 elif class_value in frozenset(['pitch','park','playground','common','garden']):
                     fixed_kv['leisure'] = class_value
