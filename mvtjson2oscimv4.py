@@ -538,12 +538,14 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     fixed_kv['boundary'] = 'administrative'
 
                 # WATER
-                elif class_value in frozenset(['water','riverbank','ocean']):
-                    fixed_kv['natural'] = 'water'
-                elif class_value == 'lake;pond':
-                    fixed_kv['water'] = 'pond'
-                elif class_value == 'river':
-                    fixed_kv['waterway'] = 'river'
+                elif class_value == 'natural':
+                    type_ = kv['type']
+                    if type_ == 'lake;pond':
+                        fixed_kv['water'] = 'pond'
+                    elif type_ == 'river':
+                        fixed_kv['waterway'] = 'river'
+                    elif type_ == 'water':
+                        fixed_kv['natural'] = 'water'
 
                 # ROADS
                 elif class_value == 'major_road':
