@@ -566,19 +566,16 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                         fixed_kv['landuse'] = type_
 
                 # ROADS
-                elif class_value == 'major_road':
-                    if 'type' in kv:
-                        fixed_kv['highway'] = kv['type']
-                    else:
-                        fixed_kv['highway'] = 'trunk'
-                elif class_value == 'minor_road':
-                    fixed_kv['highway'] = 'residential'
                 elif class_value == 'highway':
+                    type_ = kv['type']
+                if type_ == 'minor_road':
+                    fixed_kv['highway'] = 'residential'
+                elif type_ == 'highway':
                     fixed_kv['highway'] = 'motorway'
-                elif class_value == 'residential':
+                elif type_ == 'residential':
                     fixed_kv['highway'] = 'service'
-                elif class_value in frozenset(['footway','bus_stop','unclassified']):
-                    fixed_kv['highway'] = class_value
+                elif type_ in frozenset(['footway','bus_stop','unclassified']):
+                    fixed_kv['highway'] = type_
 
                 # RAILS
                 elif class_value in frozenset(['rail','subway','station']):
