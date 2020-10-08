@@ -523,8 +523,27 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
             if 'type' in kv:
                 type_ = kv['type']
-                if 'class' not in kv and type_ in frozenset(['yes','office','apartments','house','residential','commercial','hotel','parking','school','hospital','retail','brownfield']) and geometry_type == 'Polygon':
+                if 'class' not in kv and type_ in frozenset([
+                        'yes',
+                        'office',
+                        'apartments',
+                        'house',
+                        'residential',
+                        'commercial',
+                        'hotel',
+                        'parking',
+                        'school',
+                        'hospital',
+                        'retail',
+                        'brownfield',
+                        'industrial',
+                        'warehouse',
+                        'public',
+                        'driving_school',
+                        'manifacture'
+                ]) and geometry_type == 'Polygon':
                     fixed_kv['building'] = 'yes'
+                    fixed_kv['type'] = type_
 
                     if 'height' in kv:
                         fixed_kv['height'] = str(float(kv['height'])*100.0)
