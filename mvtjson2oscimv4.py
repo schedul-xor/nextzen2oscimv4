@@ -547,8 +547,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 # ROADS
                 elif class_value == 'major_road':
-                    if 'kind_detail' in kv:
-                        fixed_kv['highway'] = kv['kind_detail']
+                    if 'type' in kv:
+                        fixed_kv['highway'] = kv['type']
                     else:
                         fixed_kv['highway'] = 'trunk'
                 elif class_value == 'minor_road':
@@ -570,13 +570,13 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 # PATH
                 elif class_value == 'path':
-                    if 'kind_detail' in kv:
-                        kind_detail = kv['kind_detail']
-                        if kind_detail == 'footway':
+                    if 'type' in kv:
+                        type_ = kv['type']
+                        if type_ == 'footway':
                             fixed_kv['highway'] = 'footway'
-                        elif kind_detail == 'steps':
+                        elif type_ == 'steps':
                             fixed_kv['highway'] = 'steps'
-                        elif kind_detail == 'pedestrian':
+                        elif type_ == 'pedestrian':
                             fixed_kv['highway'] = 'footway'
 
                 elif class_value in frozenset(['pitch','park','playground','common','garden']):
