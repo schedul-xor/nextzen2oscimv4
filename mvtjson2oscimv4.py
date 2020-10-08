@@ -572,12 +572,10 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 elif class_value == 'path':
                     if 'type' in kv:
                         type_ = kv['type']
-                        if type_ == 'footway':
-                            fixed_kv['highway'] = 'footway'
-                        elif type_ == 'steps':
-                            fixed_kv['highway'] = 'steps'
-                        elif type_ == 'pedestrian':
-                            fixed_kv['highway'] = 'footway'
+                        if type_ == 'pedestrian':
+                            type_ = 'footway'
+                        fixed_kv['type'] = type_
+                        
 
                 elif class_value in frozenset(['pitch','park','playground','common','garden']):
                     fixed_kv['leisure'] = class_value
