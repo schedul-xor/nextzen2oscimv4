@@ -521,23 +521,41 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             for explicit_kind in frozenset(['waterway']):
                 if explicit_kind in kv: fixed_kv[explicit_kind] = kv[explicit_kind]
 
-            if 'type' in kv and kv['type'] == 'yes':
-                fixed_kv['building'] = 'yes'
-
-                if 'building:levels' in kv:
-                    fixed_kv['height'] = int(kv['building:levels'])*420
-
-            if 'class' in kv:
-                class_value = kv['class']
-                
+            if 'type' in kv:
                 type_ = kv['type']
-                if type_ == 'yes':
+                if type_ in frozenset(['yes','office']):
                     fixed_kv['building'] = 'yes'
 
                     if 'building:levels' in kv:
                         fixed_kv['height'] = int(kv['building:levels'])*420
+
+                elif type_ in frozenset([
+                        'bar',
+                        'bicycle',
+                        'books',
+                        'cafe',
+                        'clothes',
+                        'convenience',
+                        'dry_cleaning',
+                        'fast_food',
+                        'grave_yard',
+                        'parking',
+                        'pharmacy',
+                        'place_of_worship',
+                        'police',
+                        'post_office',
+                        'pub',
+                        'restaurant',
+                        'school',
+                        'supermarket',
+                        'university',
+                ]):
+                    fixed_kv['amenity'] = class_value
                     
-                elif class_value in frozenset(['earth']):
+            if 'class' in kv:
+                class_value = kv['class']
+                
+                if class_value in frozenset(['earth']):
                     fixed_kv['landuse'] = 'urban'
 
                 # REGION
@@ -597,29 +615,6 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 elif class_value in frozenset(['viewpoint','information','park']):
                     fixed_kv['tourism'] = class_value
-
-                elif class_value in frozenset([
-                        'bar',
-                        'bicycle',
-                        'books',
-                        'cafe',
-                        'clothes',
-                        'convenience',
-                        'dry_cleaning',
-                        'fast_food',
-                        'grave_yard',
-                        'parking',
-                        'pharmacy',
-                        'place_of_worship',
-                        'police',
-                        'post_office',
-                        'pub',
-                        'restaurant',
-                        'school',
-                        'supermarket',
-                        'university',
-                ]):
-                    fixed_kv['amenity'] = class_value
             
             merged_kv = {}
             for key in names_kv: merged_kv[key] = names_kv[key]
