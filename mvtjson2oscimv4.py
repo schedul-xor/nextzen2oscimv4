@@ -523,7 +523,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
             if 'type' in kv:
                 type_ = kv['type']
-                if type_ in frozenset(['yes','office']):
+                if type_ in frozenset(['yes','office','apartments','house']):
                     fixed_kv['building'] = 'yes'
 
                     if 'building:levels' in kv:
