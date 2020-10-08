@@ -7,6 +7,8 @@ from flask import Flask
 import nextzenjson2oscimv4 # In this directory
 
 TIPPECANOE_BIN_PATH = '/usr/local/bin/tippecanoe-decode'
+MVT_URL = 'http://localhost:22380/maps/osm/{0}/{1}/{2}.pbf'
+#MVT_URL = 'https://tile.nextzen.org/tilezen/vector/v1/256/all/{0}/{1}/{2}.mvt?api_key=_lQbucvFRf6L7cPYIG1Fdg'
 
 OSCIMV4_BUFFER_PIXELS = 156600.0
 
@@ -47,7 +49,7 @@ def vtm(z,x,y):
     tmp_mvt_path = os.path.join(MVT_CACHE_DIR,mvt_filename)
     if os.path.exists(tmp_mvt_path) and os.stat(tmp_mvt_path).st_size == 0: os.unlink(tmp_mvt_path) # Remove zero-sized files
     if not os.path.exists(tmp_mvt_path):
-        cmd = ['wget','--no-check-certificate','-O',tmp_mvt_path,'http://localhost:22380/maps/osm/'+str(tile_z)+'/'+str(tile_x)+'/'+str(tile_y)+'.pbf']
+        cmd = ['wget','--no-check-certificate','-O',tmp_mvt_path,MVT_URL.format(tile_z,tile_x,tile_y)]
         subprocess.call(cmd)
 
     if is_not_original:
