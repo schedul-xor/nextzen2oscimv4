@@ -29,6 +29,9 @@ SIZE = 256
 
 SCALE_FACTOR = 20037508.342789244
 
+HEIGHT_PER_METER = 180.0
+METERS_PER_FLOOR = 2.8
+
 YES_VALUES = frozenset(['yes','1','true'])
 NAME_KEYS = frozenset(['name','name:ja','name:en'])
 
@@ -536,14 +539,14 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     fixed_kv['type'] = 'yes'
 
                     if 'height' in kv:
-                        _height = float(heightstr2float(kv['height']))*160.0
+                        _height = float(heightstr2float(kv['height']))*HEIGHT_PER_METER
                         fixed_kv['height'] = str(_height)
                     elif 'building:levels' in kv:
-                        _height = float(heightstr2float(kv['building:levels']))*160*2.8 # 280cm=1floor
+                        _height = float(heightstr2float(kv['building:levels']))*HEIGHT_PER_METER*METERS_PER_FLOOR # 280cm=1floor
                         fixed_kv['height'] = str(_height)
                         
                     if 'min_height' in kv:
-                        _min_height = heightstr2float(kv['min_height'])*160.0
+                        _min_height = heightstr2float(kv['min_height'])*HEIGHT_PER_METER
                         fixed_kv['min_height'] = str(_min_height)
                             
                     if 'colour' in kv: fixed_kv['colour'] = kv['colour']
