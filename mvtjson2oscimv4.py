@@ -551,7 +551,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                         'roof'
                 ]) and geometry_type == 'Polygon':
                     fixed_kv['building'] = 'yes'
-                    fixed_kv['type'] = type_
+                    fixed_kv['type'] = 'yes'
 
                     if 'height' in kv:
                         _height = float(heightstr2float(kv['height']))*120.0
