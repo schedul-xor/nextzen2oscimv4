@@ -490,9 +490,9 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 fixed_kv['oneway'] = 'yes'
             if 'area' in kv and str(kv['area']).lower() in YES_VALUES:
                 fixed_kv['area'] = 'yes'
-            elif 'is_tunnel' in kv and str(kv['is_tunnel']).lower() in YES_VALUES:
+            elif 'tunnel' in kv and str(kv['tunnel']).lower() in YES_VALUES:
                 fixed_kv['tunnel'] = 'yes'
-            elif 'is_bridge' in kv and str(kv['is_bridge']).lower() in YES_VALUES:
+            elif 'bridge' in kv and str(kv['bridge']).lower() in YES_VALUES:
                 fixed_kv['bridge'] = 'yes'
 
             if 'leisure' in kv:
