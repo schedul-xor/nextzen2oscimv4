@@ -544,7 +544,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                         fixed_kv['water'] = 'pond'
                     elif type_ == 'river':
                         fixed_kv['waterway'] = 'river'
-                    elif type_ == 'water':
+                    elif type_ in frozenset(['water','riverbank','ocean']):
                         fixed_kv['natural'] = 'water'
 
                 # ROADS
