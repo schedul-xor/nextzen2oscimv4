@@ -574,7 +574,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     fixed_kv['highway'] = 'motorway'
                 elif type_ == 'residential':
                     fixed_kv['highway'] = 'service'
-                elif type_ in frozenset(['footway','bus_stop','unclassified']):
+                else:
                     fixed_kv['highway'] = type_
 
                 # RAILS
