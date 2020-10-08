@@ -536,14 +536,14 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     fixed_kv['type'] = 'yes'
 
                     if 'height' in kv:
-                        _height = float(heightstr2float(kv['height']))*120.0
+                        _height = float(heightstr2float(kv['height']))*160.0
                         fixed_kv['height'] = str(_height)
                     elif 'building:levels' in kv:
-                        _height = float(heightstr2float(kv['building:levels']))*120*2.8 # 280cm=1floor
+                        _height = float(heightstr2float(kv['building:levels']))*160*2.8 # 280cm=1floor
                         fixed_kv['height'] = str(_height)
                         
                     if 'min_height' in kv:
-                        _min_height = heightstr2float(kv['min_height'])*120.0
+                        _min_height = heightstr2float(kv['min_height'])*160.0
                         fixed_kv['min_height'] = str(_min_height)
                             
                     if 'colour' in kv: fixed_kv['colour'] = kv['colour']
