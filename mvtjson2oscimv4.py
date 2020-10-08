@@ -521,8 +521,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             for explicit_kind in frozenset(['waterway']):
                 if explicit_kind in kv: fixed_kv[explicit_kind] = kv[explicit_kind]
 
-            type_ = kv['type']
-            if type_ == 'yes':
+            if 'type' in kv and kv['type'] == 'yes':
                 fixed_kv['building'] = 'yes'
 
                 if 'building:levels' in kv:
