@@ -363,6 +363,13 @@ TAG_PREDEFINED_VALUES = [
             "butcher"
 ]
 
+def heightstr2float(_height):
+    if type(_height) is str:
+        if _height[-1] == 'm':
+            _height = _height[:-1]
+        _height = _height.strip()
+    return _height
+
 predefined_key_idx = {}
 predefined_value_idx = {}
 for i in range(len(TAG_PREDEFINED_KEYS)):
@@ -546,16 +553,16 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     fixed_kv['building'] = 'yes'
                     fixed_kv['type'] = type_
 
-                    for (key,per_height) in frozenset([('height',120.0),('min_height',120.0),('building:levels',1)]):
-                        if key in kv:
-                            _height = kv[key]
-                            if type(_height) is str:
-                                if _height[-1] == 'm':
-                                    _height = _height[:-1]
-                                _height = _height.strip()
-                            fixed_height = float(_height)*per_height
-                            fixed_kv[key] = str(fixed_height)
-#                            print(key,_height,fixed_height)
+                    if 'height' in kv:
+                        _height = heightstr2float(kv['height'])*120.0
+                        kv['height'] = str(_height)
+                    elif 'building:levels' in kv:
+                        _height = heightstr2float(kv['building:levels'])*120*2.8 # 280cm=1floor
+                        kv['height'] = str(_height)
+                        
+                    if 'min_height' in kv:
+                        _height = heightstr2float(kv['min_height'])*120.0
+                        kv['min_height'] = str(_height)
                             
                     if 'colour' in kv: fixed_kv['colour'] = kv['colour']
 
