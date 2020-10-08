@@ -546,7 +546,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     fixed_kv['type'] = type_
 
                     if 'height' in kv:
-                        fixed_kv['height'] = str(float(kv['height'])*100.0)
+                        fixed_kv['height'] = str(float(kv['height'])*120.0)
 
                 elif type_ in frozenset([
                         'bar',
