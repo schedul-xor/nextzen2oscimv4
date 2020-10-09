@@ -476,7 +476,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
     j = json.loads(fr)
     layers = j['features']
     for layer in layers:
-        if layer['properties']['layer'] in frozenset(['land','admin_lines']): continue
+        if layer['properties']['layer'] in frozenset(['admin_lines']): continue
         
         features = layer['features']
         for feature in features:
