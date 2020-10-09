@@ -481,171 +481,175 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
         features = layer['features']
         for feature in features:
             fixed_kv = {}
+            names_kv = {}
             
             tag_idxs_in_feature = []
             properties = feature['properties']
 
             kv = {}
-            # if layer['properties']['layer'] == 'land':
-            #     fixed_kv['land'] = 'land'
+            if layer['properties']['layer'] == 'land':
+                fixed_kv['land'] = 'land'
+            else:
 
-            for key in properties:
-                if key in frozenset(['id','sort_rank','source','min_zoom','surface']): continue
-                value = properties[key]
-                kv[key] = value
+                for key in properties:
+                    if key in frozenset(['id','sort_rank','source','min_zoom','surface']): continue
+                    value = properties[key]
+                    kv[key] = value
 
-            names_kv = {}
-            for key in kv.keys():
-                value = kv[key]
-                if key in NAME_KEYS:
-                    names_kv[key] = value
+                for key in kv.keys():
+                    value = kv[key]
+                    if key in NAME_KEYS:
+                        names_kv[key] = value
 
-            if 'oneway' in kv and str(kv['oneway']).lower() in YES_VALUES:
-                fixed_kv['oneway'] = 'yes'
-            if 'area' in kv and str(kv['area']).lower() in YES_VALUES:
-                fixed_kv['area'] = 'yes'
-            elif 'tunnel' in kv and str(kv['tunnel']).lower() in YES_VALUES:
-                fixed_kv['tunnel'] = 'yes'
-            elif 'bridge' in kv and str(kv['bridge']).lower() in YES_VALUES:
-                fixed_kv['bridge'] = 'yes'
+                if 'oneway' in kv and str(kv['oneway']).lower() in YES_VALUES:
+                    fixed_kv['oneway'] = 'yes'
+                if 'area' in kv and str(kv['area']).lower() in YES_VALUES:
+                    fixed_kv['area'] = 'yes'
+                elif 'tunnel' in kv and str(kv['tunnel']).lower() in YES_VALUES:
+                    fixed_kv['tunnel'] = 'yes'
+                elif 'bridge' in kv and str(kv['bridge']).lower() in YES_VALUES:
+                    fixed_kv['bridge'] = 'yes'
 
-            if 'leisure' in kv:
-                leisure = kv['leisure']
-                fixed_kv['leisure'] = leisure
-                    
-            if 'natural' in kv:
-                natural = kv['natural']
-                if natural in frozenset(['village_green','meadow']):
-                    fixed_kv['landuse'] = natural
-                elif natural == 'mountain_range': pass
-                else:
-                    fixed_kv['natural'] = natural
-                    
-            if 'landuse' in kv:
-                landuse = kv['landuse']
-                if landuse in frozenset(['park','natural_reserve']):
-                    fixed_kv['leisure'] = landuse
-                elif landuse == 'field':
-                    fixed_kv['landuse'] = 'farmland'
-                elif landuse in frozenset(['grassland','scrub']):
-                    fixed_kv['natural'] = landuse
-                else:
-                    fixed_kv['landuse'] = landuse
-                
-            for explicit_kind in frozenset(['waterway']):
-                if explicit_kind in kv: fixed_kv[explicit_kind] = kv[explicit_kind]
+                if 'leisure' in kv:
+                    leisure = kv['leisure']
+                    fixed_kv['leisure'] = leisure
 
-            if 'type' in kv:
-                type_ = kv['type']
-                if layer['properties']['layer'] == 'buildings':
-                    fixed_kv['building'] = 'yes'
-                    fixed_kv['type'] = 'yes'
-
-                    if 'height' in kv:
-                        _height = float(heightstr2float(kv['height']))*HEIGHT_PER_METER
-                        fixed_kv['height'] = str(_height)
-                    elif 'building:levels' in kv:
-                        _height = float(heightstr2float(kv['building:levels']))*HEIGHT_PER_METER*METERS_PER_FLOOR # 280cm=1floor
-                        fixed_kv['height'] = str(_height)
-                        
-                    if 'min_height' in kv:
-                        _min_height = heightstr2float(kv['min_height'])*HEIGHT_PER_METER
-                        fixed_kv['min_height'] = str(_min_height)
-                            
-                    if 'colour' in kv: fixed_kv['colour'] = kv['colour']
-
-                elif type_ in frozenset([
-                        'bar',
-                        'bicycle',
-                        'books',
-                        'cafe',
-                        'clothes',
-                        'convenience',
-                        'dry_cleaning',
-                        'fast_food',
-                        'grave_yard',
-                        'parking',
-                        'pharmacy',
-                        'place_of_worship',
-                        'police',
-                        'post_office',
-                        'pub',
-                        'restaurant',
-                        'school',
-                        'supermarket',
-                        'university',
-                ]):
-                    fixed_kv['amenity'] = type_
-                    
-            if 'class' in kv:
-                class_value = kv['class']
-
-                if class_value in frozenset(['barriar','man_made']): continue
-                
-                if class_value in frozenset(['earth']):
-                    fixed_kv['landuse'] = 'urban'
-
-                # REGION
-                elif class_value == 'locality':
-                    fixed_kv['boundary'] = 'administrative'
-
-                # WATER
-                elif class_value == 'natural':
-                    if type_ == 'lake;pond':
-                        fixed_kv['water'] = 'pond'
-                    elif type_ == 'river':
-                        fixed_kv['waterway'] = 'river'
-                    elif type_ in frozenset(['water','riverbank','ocean']):
-                        fixed_kv['natural'] = 'water'
-                        
-                # LEISURE
-                elif class_value == 'leisure':
-                    if type_ in frozenset(['pitch','park','playground','common','garden']):
-                        fixed_kv['leisure'] = type_
-
-                # LANDUSE
-                elif class_value == 'landuse':
-                    if type_ in frozenset(['park','natural_reserve']):
-                        fixed_kv['leisure'] = type_
-                    elif type_ == 'field':
-                        fixed_kv['landuse'] = 'farmland'
-                    elif type_ in frozenset(['grassland','scrub']):
-                        fixed_kv['natural'] = type_
+                if 'natural' in kv:
+                    natural = kv['natural']
+                    if natural in frozenset(['village_green','meadow']):
+                        fixed_kv['landuse'] = natural
+                    elif natural == 'mountain_range': pass
                     else:
-                        fixed_kv['landuse'] = type_
+                        fixed_kv['natural'] = natural
 
-                # ROADS
-                elif class_value == 'highway':
-                    if type_ == 'minor_road':
-                        fixed_kv['highway'] = 'residential'
-                    elif type_ == 'highway':
-                        fixed_kv['highway'] = 'motorway'
-                    elif type_ == 'residential':
-                        fixed_kv['highway'] = 'service'
-                    elif type_ == 'pedestrian':
-                        fixed_kv['highway'] = 'footway'
-                    else: 
-                        fixed_kv['highway'] = type_
+                if 'landuse' in kv:
+                    landuse = kv['landuse']
+                    if landuse in frozenset(['park','natural_reserve']):
+                        fixed_kv['leisure'] = landuse
+                    elif landuse == 'field':
+                        fixed_kv['landuse'] = 'farmland'
+                    elif landuse in frozenset(['grassland','scrub']):
+                        fixed_kv['natural'] = landuse
+                    else:
+                        fixed_kv['landuse'] = landuse
 
-                # RAILS
-                elif class_value == 'railway':
-                    if type_ in frozenset(['rail','subway','station']):
-                        fixed_kv['railway'] = type_
+                for explicit_kind in frozenset(['waterway']):
+                    if explicit_kind in kv: fixed_kv[explicit_kind] = kv[explicit_kind]
 
-                # AIR
-                elif class_value == 'aeroway':
-                    if type_ in frozenset(['aerodrome','apron','helipad']):
-                        fixed_kv['aeroway'] = type_
+                if 'type' in kv:
+                    type_ = kv['type']
+                    if layer['properties']['layer'] == 'buildings':
+                        fixed_kv['building'] = 'yes'
+                        fixed_kv['type'] = 'yes'
 
-                elif class_value in frozenset(['pitch','park','playground','common','garden']):
-                    fixed_kv['leisure'] = class_value
+                        if 'height' in kv:
+                            _height = float(heightstr2float(kv['height']))*HEIGHT_PER_METER
+                            fixed_kv['height'] = str(_height)
+                        elif 'building:levels' in kv:
+                            _height = float(heightstr2float(kv['building:levels']))*HEIGHT_PER_METER*METERS_PER_FLOOR # 280cm=1floor
+                            fixed_kv['height'] = str(_height)
 
-                elif class_value in frozenset(['viewpoint','information','park']):
-                    fixed_kv['tourism'] = class_value
+                        if 'min_height' in kv:
+                            _min_height = heightstr2float(kv['min_height'])*HEIGHT_PER_METER
+                            fixed_kv['min_height'] = str(_min_height)
+
+                        if 'colour' in kv: fixed_kv['colour'] = kv['colour']
+
+                    elif type_ in frozenset([
+                            'bar',
+                            'bicycle',
+                            'books',
+                            'cafe',
+                            'clothes',
+                            'convenience',
+                            'dry_cleaning',
+                            'fast_food',
+                            'grave_yard',
+                            'parking',
+                            'pharmacy',
+                            'place_of_worship',
+                            'police',
+                            'post_office',
+                            'pub',
+                            'restaurant',
+                            'school',
+                            'supermarket',
+                            'university',
+                    ]):
+                        fixed_kv['amenity'] = type_
+
+                if 'class' in kv:
+                    class_value = kv['class']
+
+                    if class_value in frozenset(['barriar','man_made']): continue
+
+                    if class_value in frozenset(['earth']):
+                        fixed_kv['landuse'] = 'urban'
+
+                    # REGION
+                    elif class_value == 'locality':
+                        fixed_kv['boundary'] = 'administrative'
+
+                    # WATER
+                    elif class_value == 'natural':
+                        if type_ == 'lake;pond':
+                            fixed_kv['water'] = 'pond'
+                        elif type_ == 'river':
+                            fixed_kv['waterway'] = 'river'
+                        elif type_ in frozenset(['water','riverbank','ocean']):
+                            fixed_kv['natural'] = 'water'
+
+                    # LEISURE
+                    elif class_value == 'leisure':
+                        if type_ in frozenset(['pitch','park','playground','common','garden']):
+                            fixed_kv['leisure'] = type_
+
+                    # LANDUSE
+                    elif class_value == 'landuse':
+                        if type_ in frozenset(['park','natural_reserve']):
+                            fixed_kv['leisure'] = type_
+                        elif type_ == 'field':
+                            fixed_kv['landuse'] = 'farmland'
+                        elif type_ in frozenset(['grassland','scrub']):
+                            fixed_kv['natural'] = type_
+                        else:
+                            fixed_kv['landuse'] = type_
+
+                    # ROADS
+                    elif class_value == 'highway':
+                        if type_ == 'minor_road':
+                            fixed_kv['highway'] = 'residential'
+                        elif type_ == 'highway':
+                            fixed_kv['highway'] = 'motorway'
+                        elif type_ == 'residential':
+                            fixed_kv['highway'] = 'service'
+                        elif type_ == 'pedestrian':
+                            fixed_kv['highway'] = 'footway'
+                        else: 
+                            fixed_kv['highway'] = type_
+
+                    # RAILS
+                    elif class_value == 'railway':
+                        if type_ in frozenset(['rail','subway','station']):
+                            fixed_kv['railway'] = type_
+
+                    # AIR
+                    elif class_value == 'aeroway':
+                        if type_ in frozenset(['aerodrome','apron','helipad']):
+                            fixed_kv['aeroway'] = type_
+
+                    elif class_value in frozenset(['pitch','park','playground','common','garden']):
+                        fixed_kv['leisure'] = class_value
+
+                    elif class_value in frozenset(['viewpoint','information','park']):
+                        fixed_kv['tourism'] = class_value
+
+            if len(fixed_kv) == 0: continue
             
             merged_kv = {}
             for key in names_kv: merged_kv[key] = names_kv[key]
             for key in fixed_kv: merged_kv[key] = fixed_kv[key]
+#            print(layer['properties']['layer'],merged_kv)
             
             for key in merged_kv.keys():
                 value = merged_kv[key]
