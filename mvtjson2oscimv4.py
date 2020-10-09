@@ -480,10 +480,15 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
         
         features = layer['features']
         for feature in features:
+            fixed_kv = {}
+            
             tag_idxs_in_feature = []
             properties = feature['properties']
 
             kv = {}
+            if layer['properties']['layer'] == 'land':
+                fixed_kv['land'] = 'land'
+
             for key in properties:
                 if key in frozenset(['id','sort_rank','source','min_zoom','surface']): continue
                 value = properties[key]
@@ -495,8 +500,6 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 if key in NAME_KEYS:
                     names_kv[key] = value
 
-            fixed_kv = {}
-            
             if 'oneway' in kv and str(kv['oneway']).lower() in YES_VALUES:
                 fixed_kv['oneway'] = 'yes'
             if 'area' in kv and str(kv['area']).lower() in YES_VALUES:
@@ -576,6 +579,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     
             if 'class' in kv:
                 class_value = kv['class']
+
+                if class_value in frozenset(['barriar','man_made']): continue
                 
                 if class_value in frozenset(['earth']):
                     fixed_kv['landuse'] = 'urban'
