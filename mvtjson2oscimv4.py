@@ -486,8 +486,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             properties = feature['properties']
 
             kv = {}
-            if layer['properties']['layer'] == 'land':
-                fixed_kv['land'] = 'land'
+            # if layer['properties']['layer'] == 'land':
+            #     fixed_kv['land'] = 'land'
 
             for key in properties:
                 if key in frozenset(['id','sort_rank','source','min_zoom','surface']): continue
