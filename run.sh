@@ -1,8 +1,10 @@
 #!/usr/bin/env sh
 
+set -e
+
 #TARGETTYPE=nextzen
 TARGETTYPE=mvt
-NEXTZEN_API_KEY=_lQbucvFRf6L7cPYIG1Fdg
+#NEXTZEN_API_KEY=_lQbucvFRf6L7cPYIG1Fdg
 TILESIZE=256
 
 # X=1

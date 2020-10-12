@@ -66,7 +66,8 @@ def vtm(z,x,y):
         tmp_geojson_path = os.path.join(GEOJSON_CACHE_DIR,geojson_filename)
         if os.path.exists(tmp_geojson_path) and os.stat(tmp_geojson_path).st_size == 0: os.unlink(tmp_geojson_path) # Remove zero-sized files
         if not os.path.exists(tmp_geojson_path):
-            cmd = TIPPECANOE_BIN_PATH+' '+tmp_mvt_path+' '+str(tile_z)+' '+str(tile_x)+' '+str(tile_y)+' > '+tmp_geojson_path
+            # -f option means 'force', which outputs at least valid JSON string
+            cmd = TIPPECANOE_BIN_PATH+' -f '+tmp_mvt_path+' '+str(tile_z)+' '+str(tile_x)+' '+str(tile_y)+' > '+tmp_geojson_path
             subprocess.call(cmd,shell=True)
 
     with open(tmp_geojson_path,encoding='UTF-8') as fr:

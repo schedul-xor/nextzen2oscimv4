@@ -542,18 +542,19 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                         fixed_kv['building'] = 'yes'
                         fixed_kv['type'] = 'yes'
 
-                        if 'height' in kv:
-                            _height = float(heightstr2float(kv['height']))*HEIGHT_PER_METER
-                            fixed_kv['height'] = str(_height)
-                        elif 'building:levels' in kv:
-                            _height = float(heightstr2float(kv['building:levels']))*HEIGHT_PER_METER*METERS_PER_FLOOR # 280cm=1floor
-                            fixed_kv['height'] = str(_height)
+                        if tile_z < 16:
+                            if 'height' in kv:
+                                _height = float(heightstr2float(kv['height']))*HEIGHT_PER_METER
+                                fixed_kv['height'] = str(_height)
+                            elif 'building:levels' in kv:
+                                _height = float(heightstr2float(kv['building:levels']))*HEIGHT_PER_METER*METERS_PER_FLOOR # 280cm=1floor
+                                fixed_kv['height'] = str(_height)
 
-                        if 'min_height' in kv:
-                            _min_height = heightstr2float(kv['min_height'])*HEIGHT_PER_METER
-                            fixed_kv['min_height'] = str(_min_height)
+                            if 'min_height' in kv:
+                                _min_height = heightstr2float(kv['min_height'])*HEIGHT_PER_METER
+                                fixed_kv['min_height'] = str(_min_height)
 
-                        if 'colour' in kv: fixed_kv['colour'] = kv['colour']
+                            if 'colour' in kv: fixed_kv['colour'] = kv['colour']
 
                     elif type_ in frozenset([
                             'bar',
