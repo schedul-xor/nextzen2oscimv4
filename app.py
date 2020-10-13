@@ -18,10 +18,8 @@ TMP_PATH = './tmp'
 MVT_CACHE_DIR = os.path.join(TMP_PATH,'mvt')
 GEOJSON_CACHE_DIR = os.path.join(TMP_PATH,'geojson')
 
-if not os.path.exists(TMP_PATH):
-    os.mkdir(TMP_PATH)
-    os.mkdir(MVT_CACHE_DIR)
-    os.mkdir(GEOJSON_CACHE_DIR)
+if not os.path.exists(TMP_PATH) or not os.path.exists(MVT_CACHE_DIR) or not os.path.exists(GEOJSON_CACHE_DIR):
+    quit(-1)
 
 app = Flask(__name__)
 
