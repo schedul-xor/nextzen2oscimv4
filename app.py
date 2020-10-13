@@ -23,7 +23,7 @@ tmp_path_exists = os.path.exists(TMP_PATH)
 mvt_cache_dir_exists = os.path.exists(MVT_CACHE_DIR)
 geojson_cache_dir_exists = os.path.exists(GEOJSON_CACHE_DIR)
 
-if not tmp_path_exists or mvt_cache_dir_exists or geojson_cache_dir_exists:
+if not tmp_path_exists or not mvt_cache_dir_exists or not geojson_cache_dir_exists:
     print('ERROR: Required directories was not fully prepared. Exec the following command')
     if not tmp_path_exists: print('mkdir -p '+TMP_PATH)
     if not mvt_cache_dir_exists: print('mkdir -p '+MVT_CACHE_DIR)
