@@ -4,6 +4,7 @@ sh -e run.sh 2 2 1
 sh -e run.sh 2 3 1
 sh -e run.sh 3 6 3
 sh -e run.sh 3 7 3
+sh -e run.sh 3 10 6
 sh -e run.sh 4 13 6
 sh -e run.sh 4 14 6
 sh -e run.sh 5 27 12
