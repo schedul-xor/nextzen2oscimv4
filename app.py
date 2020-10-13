@@ -18,9 +18,16 @@ TMP_PATH = './tmp'
 MVT_CACHE_DIR = os.path.join(TMP_PATH,'mvt')
 GEOJSON_CACHE_DIR = os.path.join(TMP_PATH,'geojson')
 
-if not os.path.exists(TMP_PATH) or not os.path.exists(MVT_CACHE_DIR) or not os.path.exists(GEOJSON_CACHE_DIR):
-    print('ERROR: tmp dir was not fully prepared. Exec the following command')
-    print('mkdir -p '+TMP_PATH+';mkdir '+MVT_CACHE_DIR+';mkdir '+GEOJSON_CACHE_DIR)
+required_commands = []
+tmp_path_exists = os.path.exists(TMP_PATH)
+mvt_cache_dir_exists = os.path.exists(MVT_CACHE_DIR)
+geojson_cache_dir_exists = os.path.exists(GEOJSON_CACHE_DIR)
+
+if not tmp_path_exists or mvt_cache_dir_exists or geojson_cache_dir_exists:
+    print('ERROR: Required directories was not fully prepared. Exec the following command')
+    if not tmp_path_exists: print('mkdir -p '+tmp_path_exists)
+    if not mvt_cache_dir_exists: print('mkdir -p '+mvt_cache_dir_exists)
+    if not geojson_cache_dir_exists: print('mkdir -p '+geojson_cache_dir_exists)
     quit(-1)
 
 app = Flask(__name__)
