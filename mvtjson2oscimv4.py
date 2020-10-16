@@ -545,7 +545,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     if layer['properties']['layer'] == 'buildings':
                         fixed_kv['building'] = 'yes'
                         fixed_kv['type'] = 'yes'
-                        fixed_kv['id'] = kv['id']
+                        if 'id' in kv:
+                            fixed_kv['id'] = kv['id']
 
                         if tile_z > 15:
                             if 'height' in kv:
