@@ -582,6 +582,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                             'school',
                             'supermarket',
                             'university',
+                            'theatre'
                     ]):
                         fixed_kv['amenity'] = type_
 
@@ -648,7 +649,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     elif class_value in frozenset(['pitch','park','playground','common','garden']):
                         fixed_kv['leisure'] = class_value
 
-                    elif class_value in frozenset(['viewpoint','information','park','theme_park']):
+                    elif class_value in frozenset(['viewpoint','information','park','theme_park','attraction']):
                         fixed_kv['tourism'] = class_value
 
             if len(fixed_kv) == 0: continue
