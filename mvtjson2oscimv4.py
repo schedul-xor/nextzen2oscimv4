@@ -486,13 +486,17 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             tag_idxs_in_feature = []
             properties = feature['properties']
 
+            if 'min_zoom' in properties:
+                min_zoom = int(properties['min_zoom'])
+                if tile_z > min_zoom: continue
+
             kv = {}
             if layer['properties']['layer'] == 'land':
                 fixed_kv['land'] = 'land'
             else:
 
                 for key in properties:
-                    if key in frozenset(['id','sort_rank','source','min_zoom','surface']): continue
+                    if key in frozenset(['id','sort_rank','source','surface','id']): continue
                     value = properties[key]
                     kv[key] = value
 
@@ -541,6 +545,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     if layer['properties']['layer'] == 'buildings':
                         fixed_kv['building'] = 'yes'
                         fixed_kv['type'] = 'yes'
+                        fixed_kv['id'] = kv['id']
 
                         if tile_z > 15:
                             if 'height' in kv:
