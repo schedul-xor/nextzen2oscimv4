@@ -496,7 +496,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             else:
 
                 for key in properties:
-                    if key in frozenset(['id','sort_rank','source','surface','id']): continue
+                    if key in frozenset(['id','sort_rank','source','surface']): continue
                     value = properties[key]
                     kv[key] = value
 
