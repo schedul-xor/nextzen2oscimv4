@@ -673,6 +673,9 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     elif class_value in frozenset(['viewpoint','museum','information','park','theme_park','attraction']):
                         fixed_kv['tourism'] = class_value
 
+                    elif class_value == 'office':
+                        fixed_kv['office'] = type_
+
             if len(fixed_kv) == 0: continue
             
             merged_kv = {}
