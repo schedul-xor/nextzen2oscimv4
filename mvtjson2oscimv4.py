@@ -514,6 +514,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 elif 'bridge' in kv and str(kv['bridge']).lower() in YES_VALUES:
                     fixed_kv['bridge'] = 'yes'
 
+                        
                 if 'leisure' in kv:
                     leisure = kv['leisure']
                     fixed_kv['leisure'] = leisure
@@ -563,40 +564,60 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                             if 'colour' in kv: fixed_kv['colour'] = kv['colour']
 
                     elif type_ in frozenset([
+                            'atm',
+                            'bank',
                             'bar',
+                            'bench',
                             'bicycle',
+                            'bicycle_rental',
                             'books',
+                            'bus_station',
                             'cafe',
+                            'cinema',
                             'clothes',
                             'convenience',
                             'dry_cleaning',
                             'fast_food',
+                            'fountain',
                             'grave_yard',
+                            'hospital',
+                            'library',
                             'parking',
                             'pharmacy',
                             'place_of_worship',
                             'police',
+                            'post_box',
                             'post_office',
                             'pub',
+                            'recycling',
                             'restaurant',
                             'school',
+                            'shelter',
                             'supermarket',
                             'university',
-                            'theatre'
+                            'telephone',
+                            'theatre',
+                            'toilets'
                     ]):
                         fixed_kv['amenity'] = type_
+                        
+                elif type_ == 'administrative':
+                    fixed_kv['boundary'] = 'administrative'
+                    admin_level = int(kv['admin_level'])
+                    if admin_level == 2:
+                        fixed_kv['place'] = 'country'
+                    elif admin_level == 4:
+                        fixed_kv['place'] = 'city'
+                    elif admin_level == 7:
+                        fixed_kv['place'] = 'village'
+                    elif admin_level == 8:
+                        fixed_kv['place'] = 'town'
 
                 if 'class' in kv:
                     class_value = kv['class']
 
-                    if class_value in frozenset(['barriar','man_made']): continue
-
                     if class_value in frozenset(['earth']):
                         fixed_kv['landuse'] = 'urban'
-
-                    # REGION
-                    elif class_value == 'locality':
-                        fixed_kv['boundary'] = 'administrative'
 
                     # WATER
                     elif class_value == 'natural':
@@ -618,7 +639,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                             fixed_kv['leisure'] = type_
                         elif type_ == 'field':
                             fixed_kv['landuse'] = 'farmland'
-                        elif type_ in frozenset(['grassland','scrub']):
+                        elif type_ in frozenset(['grassland','scrub','tree']):
                             fixed_kv['natural'] = type_
                         else:
                             fixed_kv['landuse'] = type_
@@ -649,7 +670,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     elif class_value in frozenset(['pitch','park','playground','common','garden']):
                         fixed_kv['leisure'] = class_value
 
-                    elif class_value in frozenset(['viewpoint','information','park','theme_park','attraction']):
+                    elif class_value in frozenset(['viewpoint','museum','information','park','theme_park','attraction']):
                         fixed_kv['tourism'] = class_value
 
             if len(fixed_kv) == 0: continue
@@ -804,4 +825,4 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
     oscim_tile.values.extend(oscim_values)
     oscim_tile.num_vals = len(oscim_values)
 
-    return b'0123'+oscim_tile.SerializeToString() # TODO: Header bytes to be fixed (although it is readable from vtm)
+    return b'0000'+oscim_tile.SerializeToString() # TODO: Header bytes to be fixed (although it is readable from vtm)
