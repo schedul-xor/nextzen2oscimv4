@@ -673,6 +673,9 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     elif class_value in frozenset(['pitch','park','playground','common','garden']):
                         fixed_kv['leisure'] = class_value
 
+                    elif class_value == 'tourism':
+                        fixed_kv['tourism'] = type_
+                        
                     elif class_value in frozenset(['viewpoint','museum','information','park','theme_park','attraction']):
                         fixed_kv['tourism'] = class_value
 

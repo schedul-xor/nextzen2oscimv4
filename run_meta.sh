@@ -1,5 +1,10 @@
 #!/usr/bin/env sh
 
+sh -e run.sh 17 116433 51597
+sh -e run.sh 17 116433 51598
+sh -e run.sh 17 116421 51625
+sh -e run.sh 16 57480 25957
+
 sh -e run.sh 2 2 1
 sh -e run.sh 2 3 1
 sh -e run.sh 3 6 3
