@@ -601,17 +601,17 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     ]):
                         fixed_kv['amenity'] = type_
                         
-                elif type_ == 'administrative':
-                    fixed_kv['boundary'] = 'administrative'
-                    admin_level = int(kv['admin_level'])
-                    if admin_level == 2:
-                        fixed_kv['place'] = 'country'
-                    elif admin_level == 4:
-                        fixed_kv['place'] = 'city'
-                    elif admin_level == 7:
-                        fixed_kv['place'] = 'village'
-                    elif admin_level == 8:
-                        fixed_kv['place'] = 'town'
+                    elif type_ == 'administrative':
+                        fixed_kv['boundary'] = 'administrative'
+                        admin_level = int(kv['admin_level'])
+                        if admin_level == 2:
+                            fixed_kv['place'] = 'country'
+                        elif admin_level == 4:
+                            fixed_kv['place'] = 'city'
+                        elif admin_level == 7:
+                            fixed_kv['place'] = 'village'
+                        elif admin_level == 8:
+                            fixed_kv['place'] = 'town'
 
                 if 'class' in kv:
                     class_value = kv['class']
