@@ -493,8 +493,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             kv = {}
             if layer['properties']['layer'] == 'land':
                 fixed_kv['land'] = 'land'
+                
             else:
-
                 for key in properties:
                     if key in frozenset(['id','sort_rank','source','surface']): continue
                     value = properties[key]
@@ -612,6 +612,9 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                             fixed_kv['place'] = 'village'
                         elif admin_level == 8:
                             fixed_kv['place'] = 'town'
+
+                    elif type_ == 'place_of_worship':
+                        fixed_kv['amenity'] = type_
 
                 if 'class' in kv:
                     class_value = kv['class']
