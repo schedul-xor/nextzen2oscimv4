@@ -30,7 +30,6 @@ SIZE = 256
 SCALE_FACTOR = 20037508.342789244
 
 HEIGHT_PER_METER = 160.0
-METERS_PER_FLOOR = 2.8
 
 YES_VALUES = frozenset(['yes','1','true'])
 NAME_KEYS = frozenset(['name','name:ja','name:en'])
