@@ -554,7 +554,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                                 _height = float(heightstr2float(kv['height']))*HEIGHT_PER_METER
                                 fixed_kv['height'] = str(_height)
                             elif 'building:levels' in kv:
-                                fixed_kv['building:levels'] = kv['building:levels']
+                                fixed_kv['building:levels'] = str(kv['building:levels'])
 
                             if 'min_height' in kv:
                                 _min_height = heightstr2float(kv['min_height'])*HEIGHT_PER_METER
