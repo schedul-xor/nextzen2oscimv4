@@ -542,13 +542,14 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 if 'type' in kv:
                     type_ = kv['type']
-                    if layer['properties']['layer'] in frozenset(['buildings','building:part']):
+                    layer = layer['properties']['layer']
+                    if layer in frozenset(['buildings','building:part']):
                         fixed_kv['building'] = 'yes'
                         fixed_kv['type'] = 'yes'
                         if 'id' in kv:
                             fixed_kv['id'] = kv['id']
 
-                        if tile_z > 15:
+                        if tile_z > 16:
                             if 'height' in kv:
                                 _height = float(heightstr2float(kv['height']))*HEIGHT_PER_METER
                                 fixed_kv['height'] = str(_height)
