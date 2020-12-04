@@ -520,7 +520,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 if 'natural' in kv:
                     natural = kv['natural']
-                    if natural in frozenset(['village_green','meadow','wood','beach','marsh','wetland','mud']):
+                    if natural in frozenset(['village_green','meadow','wood']):
                         fixed_kv['landuse'] = natural
                     elif natural == 'mountain_range': pass
                     else:
@@ -625,6 +625,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     elif class_value == 'natural':
                         if type_ == 'lake;pond':
                             fixed_kv['water'] = 'pond'
+                        if type_ == 'beach':
+                            fixed_kv['natural'] = 'beach'
                         elif type_ == 'river':
                             fixed_kv['waterway'] = 'river'
                         elif type_ in frozenset(['water','riverbank','ocean']):
