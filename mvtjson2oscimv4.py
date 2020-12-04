@@ -641,7 +641,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                             fixed_kv['leisure'] = type_
                         elif type_ == 'field':
                             fixed_kv['landuse'] = 'farmland'
-                        elif type_ in frozenset(['grassland','scrub','tree']):
+                        elif type_ in frozenset(['grassland','scrub','tree','wood']):
                             fixed_kv['natural'] = type_
                         else:
                             fixed_kv['landuse'] = type_
