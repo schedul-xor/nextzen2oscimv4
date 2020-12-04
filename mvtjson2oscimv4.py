@@ -532,7 +532,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                         fixed_kv['leisure'] = landuse
                     elif landuse == 'field':
                         fixed_kv['landuse'] = 'farmland'
-                    elif landuse in frozenset(['grassland','scrub']):
+                    elif landuse in frozenset(['grassland','scrub','beach','marsh','wetland','mud']):
                         fixed_kv['natural'] = landuse
                     else:
                         fixed_kv['landuse'] = landuse
