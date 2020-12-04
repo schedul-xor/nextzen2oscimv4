@@ -520,7 +520,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 if 'natural' in kv:
                     natural = kv['natural']
-                    if natural in frozenset(['village_green','meadow','wood']):
+                    if natural in frozenset(['village_green','meadow','wood','beach','marsh','wetland','mud']):
                         fixed_kv['landuse'] = natural
                     elif natural == 'mountain_range': pass
                     else:
@@ -532,7 +532,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                         fixed_kv['leisure'] = landuse
                     elif landuse == 'field':
                         fixed_kv['landuse'] = 'farmland'
-                    elif landuse in frozenset(['grassland','scrub','beach','marsh','wetland','mud']):
+                    elif landuse in frozenset(['grassland','scrub']):
                         fixed_kv['natural'] = landuse
                     else:
                         fixed_kv['landuse'] = landuse
