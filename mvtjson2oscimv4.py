@@ -629,6 +629,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                             fixed_kv['waterway'] = 'river'
                         elif type_ in frozenset(['water','riverbank','ocean']):
                             fixed_kv['natural'] = 'water'
+                        elif type_ == 'wood':
+                            fixed_kv['landuse'] = 'wood'
 
                     # LEISURE
                     elif class_value == 'leisure':
