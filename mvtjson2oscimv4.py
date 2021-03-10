@@ -439,7 +439,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
         for x,y in abs_xys:
             dx = x-last_x
             dy = y-last_y
-            delta_xys.append([dx,dy])
+            if dx != 0 or dy != 0:
+                delta_xys.append([dx,dy])
             last_x = x
             last_y = y
 
@@ -465,7 +466,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
             for x,y in abs_xys:
                 dx = x-last_x
                 dy = y-last_y
-                delta_xys.append([dx,dy])
+                if dx != 0 or dy != 0:
+                    delta_xys.append([dx,dy])
                 last_x = x
                 last_y = y
             delta_xyss.append(delta_xys)
