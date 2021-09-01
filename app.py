@@ -6,6 +6,7 @@ import subprocess
 from flask import Flask
 #import nextzenjson2oscimv4 # In this directory
 import mvtjson2oscimv4 # In this directory
+import redis
 
 TIPPECANOE_BIN_PATH = '/usr/local/bin/tippecanoe-decode'
 #MVT_URL = 'https://tile.nextzen.org/tilezen/vector/v1/256/all/{0}/{1}/{2}.mvt?api_key=_lQbucvFRf6L7cPYIG1Fdg'
@@ -13,6 +14,12 @@ TIPPECANOE_BIN_PATH = '/usr/local/bin/tippecanoe-decode'
 MVT_URL = 'http://localhost:22380/maps/osm/{0}/{1}/{2}.pbf'
 
 OSCIMV4_BUFFER_PIXELS = 156600.0
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0
+
+r = redis.StrictRedis(host=REDIS_HOST,port=REDIS_PORT,db=REDIS_DB)
 
 TMP_PATH = './tmp'
 MVT_CACHE_DIR = os.path.join(TMP_PATH,'mvt')
@@ -46,7 +53,7 @@ def vtm(z,x,y):
     if tile_z >= 18:
         is_not_original = True
         new_x = tile_x
-        new_y = tile_y
+Ã        new_y = tile_y
         new_z = tile_z
         while new_z >= 18:
             new_x = int(new_x/2)
@@ -61,6 +68,14 @@ def vtm(z,x,y):
     if not os.path.exists(tmp_mvt_path):
         cmd = ['wget','--no-check-certificate','-O',tmp_mvt_path,MVT_URL.format(tile_z,tile_x,tile_y)]
         subprocess.call(cmd)
+
+    for retry_i in range(100):
+        if os.path.getsize(tmp_mvt_path) == 23:
+            os.unlink(tmp_mvt_path)
+            r.delete('osm/'+str(z)+'/'+str(x)+'/'+str(y))
+            cmd = ['wget','--no-check-certificate','-O',tmp_mvt_path,MVT_URL.format(tile_z,tile_x,tile_y)]
+            subprocess.call(cmd)
+        else: break
 
     if is_not_original:
         geojson_filename = str(new_z)+'_'+str(new_x)+'_'+str(new_y)+'.json'
