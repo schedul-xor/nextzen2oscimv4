@@ -53,7 +53,7 @@ def vtm(z,x,y):
     if tile_z >= 18:
         is_not_original = True
         new_x = tile_x
-Ã        new_y = tile_y
+        new_y = tile_y
         new_z = tile_z
         while new_z >= 18:
             new_x = int(new_x/2)
