@@ -617,6 +617,9 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     elif type_ == 'place_of_worship':
                         fixed_kv['amenity'] = type_
 
+                    elif type_ =='riverbank':
+                        fixed_kv['natural'] = 'water'
+
                 if 'class' in kv:
                     class_value = kv['class']
 
@@ -667,8 +670,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                     # RAILS
                     elif class_value == 'railway':
-                        if type_ in frozenset(['rail','subway','station']):
-                            fixed_kv['railway'] = type_
+                        if type_ in frozenset(['rail','subway','station','platform']):
+                            fixed_kv['railway'] = type_ 
 
                     # AIR
                     elif class_value == 'aeroway':
