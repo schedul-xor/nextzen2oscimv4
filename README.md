@@ -142,10 +142,15 @@ supervisorctl update
 
 Test nextzen2oscimv4 with tegola:22380 backend
 ----
+Generate `TileData_v4_pb2.py`
+```
+cd nextzen2oscim4
+sh pbf2py.sh
+```
+
 Create `tmp` path under `/absolute_path_to/Documents/nextzen2oscim4`.
 
 ```
-cd nextzen2oscim4
 mkdir tmp
 mkdir tmp/mvt
 mkdir tmp/geojson
