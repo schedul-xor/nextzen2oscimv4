@@ -9,8 +9,6 @@ import mvtjson2oscimv4 # In this directory
 import redis
 
 TIPPECANOE_BIN_PATH = '/usr/local/bin/tippecanoe-decode'
-#MVT_URL = 'https://tile.nextzen.org/tilezen/vector/v1/256/all/{0}/{1}/{2}.mvt?api_key=_lQbucvFRf6L7cPYIG1Fdg'
-#MVT_URL = 'http://tile0.ogiqvo.com:22380/maps/osm/{0}/{1}/{2}.pbf'
 MVT_URL = 'http://localhost:22380/maps/osm/{0}/{1}/{2}.pbf'
 
 OSCIMV4_BUFFER_PIXELS = 156600.0
@@ -95,7 +93,6 @@ def vtm(z,x,y):
 
     with open(tmp_geojson_path,encoding='UTF-8') as fr:
         oscimv4_buffer_pixels = float(OSCIMV4_BUFFER_PIXELS)/pow(2.0,float(tile_z))
-#        oscimv4_binary = nextzenjson2oscimv4.convert(tile_z,tile_x,tile_y,oscimv4_buffer_pixels,fr.read())
         oscimv4_binary = mvtjson2oscimv4.convert(tile_z,tile_x,tile_y,oscimv4_buffer_pixels,fr.read())
         
     return oscimv4_binary
