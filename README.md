@@ -15,19 +15,19 @@ Install Required Softwares
    * Usage of apt for Debian-based Linux distributions is OK
  * [Imposm3](https://imposm.org/)
    1. Download `imposm-0.XX.X-linux-x86-64.tar.gz` from https://github.com/omniscale/imposm3/releases
-   2. Extract to `~/Documents`, which will create a directory like `~/Documents/imposm-0.XX.X-linux-x86-64`
+   2. Extract to `/absolute_path_to/Documents`, which will create a directory like `/absolute_path_to/Documents/imposm-0.XX.X-linux-x86-64`
  * [gdal](https://gdal.org/) ---- *Required for tegola-osm*
  * [tippecanoe](https://github.com/mapbox/tippecanoe) --- *Required to convert mvt into geojson*
-   1. Clone to `~/Documents`, which will create a directory like `~/Documents/tippecanoe`
+   1. Clone to `/absolute_path_to/Documents`, which will create a directory like `/absolute_path_to/Documents/tippecanoe`
    2. `cd tippecanoe`
    3. `make -j`
    4. `sudo make install`
    5. Check if `which tippecanoe-decode` returns `/usr/local/bin/tippecanoe-decode`
  * [tegola](https://tegola.io/)
    1. Download `tegola_linux_amd64.zip` from https://github.com/go-spatial/tegola/releases
-   2. Extract to `~/Documents`
+   2. Extract to `/absolute_path_to/Documents`
  * [tegola-osm](https://github.com/go-spatial/tegola-osm)
-   1. Clone to `~/Documents`, which will create a directory like `~/Documents/tegola-osm`
+   1. Clone to `/absolute_path_to/Documents`, which will create a directory like `/absolute_path_to/Documents/tegola-osm`
  * `apt install python3-flask`
  * `apt install python3-protobuf`
  * `apt install python3-redis`
@@ -38,7 +38,7 @@ Install Required Softwares
  * [nginx](https://nginx.org/) --- *HTTP reverse proxy*
    1. `apt install nginx`
     
- and nextzen2oscimv4, clone this directory to `~/Documents`, which will create a directory like `~/Documents/nextzen2oscimv4`.
+ and nextzen2oscimv4, clone this directory to `/absolute_path_to/Documents`, which will create a directory like `/absolute_path_to/Documents/nextzen2oscimv4`.
  
 Create PostgreSQL database
 ----
@@ -65,7 +65,7 @@ Update OSM data
 ```
 #!/usr/bin/env sh
 
-cd ~/Documents
+cd /absolute_path_to/Documents
 
 # Sample values
 PG_CONNECTION_STRING=postgis://osm_user:osm_password@localhost/osm
@@ -89,7 +89,7 @@ redis-cli FLUSHALL
 Check if tegola is working on port 22380
 ----
 ```
-cd ~/Documents/
+cd /absolute_path_to/Documents/
 export TEGOLA_PORT=22380
 export OSM_DB_HOST=localhost
 export OSM_DB_PORT=5432
@@ -142,7 +142,7 @@ supervisorctl update
 
 Test nextzen2oscimv4 with tegola:22380 backend
 ----
-Create `tmp` path under `~/Documents/nextzen2oscim4`.
+Create `tmp` path under `/absolute_path_to/Documents/nextzen2oscim4`.
 
 ```
 cd nextzen2oscim4
