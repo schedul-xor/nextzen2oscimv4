@@ -59,8 +59,12 @@ CREATE DATABASE osm OWNER osm_user;
 CREATE EXTENSION postgis;
 ```
 
-Update OSM data
+Download and insert OSM data to PostgreSQL database
 ----
+
+Download OSM data in PBF format and save it to `/tmp/some_country.osm.pbf`.
+
+Maybe in your case whole planet is not needed. We recommend region-limited OSM data provided by Geofabrik. For example, OSM data for Japan can be downloaded from https://download.geofabrik.de/asia/japan.html .
 
 ```
 #!/usr/bin/env sh
