@@ -545,7 +545,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 if 'type' in kv:
                     type_ = kv['type']
                     property_layer = layer['properties']['layer']
-                    if property_layer in frozenset(['buildings','building:part']):
+                    if property_layer in frozenset(['building','buildings','building:part']):
                         fixed_kv['building'] = 'yes'
                         fixed_kv['type'] = 'yes'
                         if 'id' in kv:
