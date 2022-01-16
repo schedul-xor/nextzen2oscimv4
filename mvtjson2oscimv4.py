@@ -570,7 +570,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                                     del fixed_kv['building:levels']
                                     del fixed_kv['height']
                                     del fixed_kv['min_height']
-                                    kv['railway'] = 'station'
+                                    fixed_kv['railway'] = 'station'
+                                    fixed_kv['layer'] = str(layer)
 
                             if 'colour' in kv: fixed_kv['colour'] = kv['colour']
 
