@@ -562,6 +562,16 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                                 _min_height = heightstr2float(kv['min_height'])*HEIGHT_PER_METER
                                 fixed_kv['min_height'] = str(_min_height)
 
+                            if 'layer' in kv:
+                                layer = float(kv['layer'])
+
+                                if layer < 0:
+                                    del fixed_kv['building']
+                                    del fixed_kv['building:levels']
+                                    del fixed_kv['height']
+                                    del fixed_kv['min_height']
+                                    kv['railway'] = 'station'
+
                             if 'colour' in kv: fixed_kv['colour'] = kv['colour']
 
                     elif type_ in frozenset([
