@@ -530,11 +530,11 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 if 'landuse' in kv:
                     landuse = kv['landuse']
-                    if landuse in frozenset(['park','natural_reserve']):
+                    if landuse in frozenset(['park','natural_reserve','military','resourvoir','basin','track']):
                         fixed_kv['leisure'] = landuse
                     elif landuse == 'field':
                         fixed_kv['landuse'] = 'farmland'
-                    elif landuse in frozenset(['grassland','scrub']):
+                    elif landuse in frozenset(['grassland','scrub','mud','glacier','land','beach']):
                         fixed_kv['natural'] = landuse
                     else:
                         fixed_kv['landuse'] = landuse
@@ -652,7 +652,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                     # LEISURE
                     elif class_value == 'leisure':
-                        if type_ in frozenset(['pitch','park','playground','common','garden']):
+                        if type_ in frozenset(['pitch','park','playground','common','garden','stadium']):
                             fixed_kv['leisure'] = type_
 
                     # LANDUSE
@@ -689,7 +689,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                         if type_ in frozenset(['aerodrome','apron','helipad']):
                             fixed_kv['aeroway'] = type_
 
-                    elif class_value in frozenset(['pitch','park','playground','common','garden']):
+                    elif class_value in frozenset(['pitch','park','playground','common','garden','golf_course','dog_park','cemetery','green','marsh','wetland','mud','nature_reserve','sports_centre','water_park','miniature_golf','playing_fields','swimming_pool']):
                         fixed_kv['leisure'] = class_value
 
                     elif class_value == 'tourism':
