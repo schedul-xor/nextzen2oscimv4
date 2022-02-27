@@ -18,6 +18,7 @@
 
 import json
 import TileData_v4_pb2
+import unicodedata
 from pyproj import Transformer,Proj
 
 EPSG3857 = Proj('+init=EPSG:3857')
@@ -504,7 +505,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 for key in kv.keys():
                     value = kv[key]
                     if key in NAME_KEYS:
-                        names_kv[key] = value
+                        names_kv[key] = unicodedata.normalize('NFKC',value)
 
                 if 'oneway' in kv and str(kv['oneway']).lower() in YES_VALUES:
                     fixed_kv['oneway'] = 'yes'
