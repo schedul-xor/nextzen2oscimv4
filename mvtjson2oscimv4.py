@@ -475,6 +475,7 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
         return delta_xyss
 
+    done_ids = set([])
     j = json.loads(fr)
     layers = j['features']
     for layer in layers:
@@ -497,6 +498,10 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 fixed_kv['land'] = 'land'
                 
             else:
+                if 'id' in properties:
+                    feature_id = properties['id']
+                    if feature_id in done_ids: continue
+                    done_ids.add(feature_id)
                 for key in properties:
                     if key in frozenset(['id','sort_rank','source','surface']): continue
                     value = properties[key]
