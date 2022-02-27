@@ -550,6 +550,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
                 for explicit_kind in frozenset(['waterway']):
                     if explicit_kind in kv: fixed_kv[explicit_kind] = kv[explicit_kind]
+                for 'waterway' in kv:
+                    fixed_kv['waterway'] = kv['waterway']
 
                 if 'type' in kv:
                     type_ = kv['type']
