@@ -509,11 +509,6 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     value = properties[key]
                     kv[key] = value
 
-                for key in kv.keys():
-                    value = kv[key]
-                    if key in NAME_KEYS:
-                        names_kv[key] = unicodedata.normalize('NFKC',value)
-
                 if 'oneway' in kv and str(kv['oneway']).lower() in YES_VALUES:
                     fixed_kv['oneway'] = 'yes'
                 if 'area' in kv and str(kv['area']).lower() in YES_VALUES:
@@ -762,6 +757,11 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 tag_idxs_in_feature.append(int(tag_idx))
             if len(tag_idxs_in_feature) == 0: continue
 
+            for key in kv.keys():
+                value = kv[key]
+                if key in NAME_KEYS:
+                    names_kv[key] = unicodedata.normalize('NFKC',value)
+
             geometry = feature['geometry']
             geometry_type = geometry['type']
             c = geometry['coordinates']
@@ -830,9 +830,6 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 indices = []
                 for delta_xys in delta_xyss:
                     indices.append(len(delta_xys))
-                    indices.append(0)
-                indices = indices[:-1]
-#                print('Polygon',len(c),fixed_kv,indices)
                 oscim_element.indices.extend(indices)
                 oscim_element.num_indices = len(indices)
                 flat_xys = []
