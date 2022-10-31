@@ -580,8 +580,8 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                                 if layer < 0:
                                     del fixed_kv['building']
                                     del fixed_kv['building:levels']
-                                    del fixed_kv['height']
-                                    del fixed_kv['min_height']
+#                                    del fixed_kv['height']
+#                                    del fixed_kv['min_height']
                                     fixed_kv['railway'] = 'station'
                                     fixed_kv['layer'] = str(layer)
 
