@@ -368,9 +368,11 @@ TAG_PREDEFINED_VALUES = [
 
 def heightstr2float(_height):
     if type(_height) is str:
-        if _height[-1] == 'm':
+        if len(_height) > 0 and _height[-1] == 'm':
             _height = _height[:-1]
         _height = _height.strip()
+        if _height == '':
+            _height = None
     return _height
 
 predefined_key_idx = {}
@@ -563,16 +565,23 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                         if 'id' in kv:
                             fixed_kv['id'] = kv['id']
 
+                        if property_layer == 'building:part': # temporary
+                            print(kv)
+
                         if tile_z > 16:
                             if 'height' in kv:
-                                _height = float(heightstr2float(kv['height']))*HEIGHT_PER_METER
-                                fixed_kv['height'] = str(_height)
+                                heightstr = heightstr2float(kv['height'])
+                                if heightstr != None:
+                                    _height = float(heightstr)*HEIGHT_PER_METER
+                                    fixed_kv['height'] = str(_height)
                             elif 'building:levels' in kv:
                                 fixed_kv['building:levels'] = str(kv['building:levels'])
 
                             if 'min_height' in kv:
-                                _min_height = heightstr2float(kv['min_height'])*HEIGHT_PER_METER
-                                fixed_kv['min_height'] = str(_min_height)
+                                heightstr = heightstr2float(kv['min_height'])
+                                if heightstr != None:
+                                    _min_height = float(heightstr)*HEIGHT_PER_METER
+                                    fixed_kv['min_height'] = str(_min_height)
 
                             if 'layer' in kv:
                                 layer = float(kv['layer'])
