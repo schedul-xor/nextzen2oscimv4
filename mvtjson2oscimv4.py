@@ -565,16 +565,13 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                         if 'id' in kv:
                             fixed_kv['id'] = kv['id']
 
-                        if property_layer == 'building:part': # temporary
-                            print(kv)
-
                         if tile_z > 16:
                             if 'height' in kv:
                                 heightstr = heightstr2float(kv['height'])
                                 if heightstr != None:
                                     _height = float(heightstr)*HEIGHT_PER_METER
                                     fixed_kv['height'] = str(_height)
-                            elif 'building:levels' in kv:
+                            if 'height' not in fixed_kv and 'building:levels' in kv:
                                 fixed_kv['building:levels'] = str(kv['building:levels'])
 
                             if 'min_height' in kv:
