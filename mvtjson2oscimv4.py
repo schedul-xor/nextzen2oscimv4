@@ -486,7 +486,6 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
         features = layer['features']
         for feature in features:
             fixed_kv = {}
-            names_kv = {}
             
             tag_idxs_in_feature = []
             properties = feature['properties']
@@ -716,6 +715,12 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
 
             if len(fixed_kv) == 0: continue
             
+            names_kv = {}
+            for key in kv.keys():
+                value = kv[key]
+                if key in NAME_KEYS:
+                    names_kv[key] = unicodedata.normalize('NFKC',value)
+
             merged_kv = {}
             for key in names_kv: merged_kv[key] = names_kv[key]
             for key in fixed_kv: merged_kv[key] = fixed_kv[key]
@@ -756,11 +761,6 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                     serialized_tags.append(int(value_idx))
                 tag_idxs_in_feature.append(int(tag_idx))
             if len(tag_idxs_in_feature) == 0: continue
-
-            for key in kv.keys():
-                value = kv[key]
-                if key in NAME_KEYS:
-                    names_kv[key] = unicodedata.normalize('NFKC',value)
 
             geometry = feature['geometry']
             geometry_type = geometry['type']
