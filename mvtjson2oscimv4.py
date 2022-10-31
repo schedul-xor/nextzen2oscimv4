@@ -830,6 +830,9 @@ def convert(tile_z,tile_x,tile_y,buffer_pixels,fr):
                 indices = []
                 for delta_xys in delta_xyss:
                     indices.append(len(delta_xys))
+                    indices.append(0)
+                indices = indices[:-1]
+#                print('Polygon',len(c),fixed_kv,indices)
                 oscim_element.indices.extend(indices)
                 oscim_element.num_indices = len(indices)
                 flat_xys = []
